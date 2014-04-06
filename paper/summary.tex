@@ -1,0 +1,26 @@
+
+We have designed and implemented an interface system (CORBin) 
+to work with ORBit, a freely available ORB with C language 
+bindings, in order to provide CORBA support for the functional 
+language, ML. The interface system provides an IDL compiler, 
+corbin-idl, that processes an Interface Definition Language 
+(IDL) file and generates C functions which utilize the 
+functionality provided by ORBit.  These C functions are 
+added to a library that is compiled into the SML/NJ runtime 
+system.  The resulting runtime system provides the ML programmer 
+with the ability to implement and communicate with CORBA objects 
+defined within the IDL file.  A case study was presented to 
+illustrate the use of the CORBin System in the development of 
+a distributed instant messaging application.   A performance
+experiment was conducted to show that CORBA objects implemented
+in ML using the CORBin System can achieve satisfactory performance
+levels for operation execution.   The performance experiment compared
+two different implementations of a CORBA object.  One version was 
+implemented in C and another was implemented in ML using the CORBin
+System.  The average execution times for the operations 
+invoked by a client application were roughly the same for both 
+implementations.  The source code for the CORBin System,
+case study,  and performance test can be retrieved from
+{\em{http://www.corbinator.com}}.  
+
+\input{conclude}

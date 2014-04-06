@@ -1,0 +1,152 @@
+
+
+While the class diagrams of the previous section provide a general
+framework within which name lookup takes place, we still have not
+specified the actual rules used in deciding the sequence of scopes
+that are searched, and which would be encoded in the {\tt lookup}
+method for these scopes.
+
+As might be expected with such a complex language as {\CPP},
+there are many cases
+to consider, and indeed, several examples are presented in the
+{\CPP} standard.  In this section we present two specific cases, namespace
+lookup and class-based lookup, which capture many of the fundamental
+decisions involved in the lookup process.
+For further information, the interested reader may consult
+reference \cite{power99} for solutions to the name lookup
+problem for virtually all of the examples listed in the {\CPP} standard.
+
+\input{ns-program}
+
+The examples presented below are based on some of those presented in
+the {\CPP} standard.  These examples typically present a series of
+declarations or definitions, and then some usages, and then describe
+the name lookup for these usages.  We observe here that the standard UML
+modeling techniques of object diagrams and sequence diagrams fit
+smoothly onto this pattern, since the former are ideal for describing
+the environment created by a declaration sequence, and the latter are
+ideal for describing a particular invocation of the name lookup
+procedure.
+
+
+\begin{figure*}[t]
+ \centerline{\protect
+\mbox{\psfig{figure=../Figs/ns-obj.ps,height=.30\textheight}}}
+  \caption{{\em Object diagram for the namespace example}.
+This figure represents the two kinds of relationships between
+namespaces: those established by a using directive and those
+established by nesting.
+}
+   \label{ns-obj}
+%\rule{6.5in}{0.3mm}\\
+\end{figure*}
+
+
+\section{Name Lookup for Namespaces}
+
+Namespaces act as a modularization construct in {\CPP}, allowing the
+programmer to partition the names used in a program to prevent them
+from interfering with each other.  Thus, given some variable {\tt x}
+declared in namespace {\tt A}, once outside namespace
+{\tt A} we may refer to the variable using explicit qualification, as
+in {\tt A::x}.
+
+Namespaces may be nested inside each other, in which case name
+occurrences inside the inner namespace may refer to those already
+declared at the outer level without the need for qualification with
+this process continuing recursively, eventually reaching the global
+namespace where all namespaces are ultimately nested.
+
+In addition to this textual relationship achieved through
+qualification or nesting, we may establish a logical
+relationship between namespaces by importing one into another with a
+{\tt using} directive.  The declarations in a namespace that are
+imported in this way are treated as though they were originally
+declared in the importing namespace.
+
+
+
+
+\begin{figure}[t]
+ \centerline{\protect
+\mbox{\psfig{figure=../Figs/ns-seq.ps,height=.30\textheight}}}
+  \caption{{\em Sequence diagram for the namespace example}.
+This figure captures the flow of control as messages are passed
+through the namespace hierarchy. 
+}
+   \label{ns-seq}
+%\rule{6.5in}{0.3mm}\\
+\end{figure}
+
+
+
+In Figure \ref{ns-program} we list a program segment to illustrate
+name lookup for namespaces.
+Here we declare five namespaces, with various using
+relationships and one nesting relationship; we also
+define a single function {\tt h()}.  
+
+Our first step in representing this example is to construct an object
+diagram, illustrated in Figure \ref{ns-obj},
+showing how each scope instantiates a corresponding subclass of
+our model's {\sf Scope} class, illustrated in Figure \ref{overview}
+and discussed in Section \ref{approachoverview}.
+The object diagram also represents the nesting and
+import relationships between the namespaces.
+For example, all namespaces are contained in an implicitly declared
+global namespace; thus, namespaces {\sf Y}, {\sf AB},
+{\sf B} and {\sf Z} of Figure \ref{ns-program} are implicitly
+contained in an unnamed global namespace.
+This nesting relationship is captured in Figure \ref{ns-obj}
+by the unnamed class at the top of the figure
+that is an instance of {\sf GlobalNamespace},
+and classes {\sf Y}, {\sf AB},
+{\sf B} and {\sf Z} related to
+the unnamed instance of
+{\sf GlobalNamespace} by the {\sf contained in} connector.
+Similarly, namespaces {\sf A} and {\sf B} of Figure \ref{ns-program}
+contain named using directives for {\sf Y} and {\sf Z}
+respectively. This import relationship is captured
+in Figure \ref{ns-obj} by the {\sf uses} connector between
+instances of {\sf Y} and {\sf A}, and between {\sf Z} and {\sf B}.
+Similar {\sf uses} relationships are shown in  Figure \ref{ns-obj}
+between {\sf A} and {\sf AB} and between {\sf B} and {\sf AB}.
+
+At the end of the program segment illustrated in Figure \ref{ns-program}
+we have function {\tt h()} at global scope,
+which contains a usage of the name {\tt f}, with an explicit
+qualification by the namespace {\tt AB}.  To illustrate name lookup
+for {\tt f}, we present a sequence diagram, illustrated in
+Figure \ref{ns-seq}, indicating the
+scopes that are searched and the order that they are
+searched.  
+The lookup proceeds as follows:
+
+\begin{itemize}
+\item Namespace {\tt AB} is first searched unsuccessfully; we must
+next search its imported namespaces {\tt Z::A} and then {\tt B}.
+\item The search of namespace {\tt Z::A} yields no declaration, and so
+we search its imported namespace {\tt Y}.  Our search of {\tt Y} is
+successful. 
+\item Going back to {\tt AB} we are now directed to search namespace
+{\tt B} where we also find a declaration, thus precluding the search
+of its imported namespace {\tt Z}.
+\end{itemize}
+
+The search terminates, returning the two possible definitions of {\tt
+f} to the program-processor, which will then proceed with the
+subsequent stages of processing such as overload resolution.
+
+Note that we do not consider the namespace {\tt Z} in which {\tt A} is
+nested in this part of the search, nor do we search global namespace,
+in accordance with the lookup rules for qualified names.  The presence
+of a qualifier is made known to the {\sf Scope}'s {\tt lookup} method
+through its parameter, the {\sf NameOccurrence} instance corresponding
+to {\tt f}.
+
+In the sequence diagram we are able to explicitly represent the roles
+and responsibilities of each scope level.  For example, it is the
+namespace {\tt AB} that causes a search of {\tt Z::A} and then {\tt B}
+(in that order), and which is responsible for combining the results
+from each of these searches.
+

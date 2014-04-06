@@ -1,0 +1,4 @@
+#!/bin/sh
+
+java -jar syrup_files.jar org.omg.CORBA.ORBInitialHost=dorian.cs.clemson.edu org.omg.CORBA.ORBInitialPort=1870 &
+

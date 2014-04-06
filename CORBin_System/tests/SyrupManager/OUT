@@ -1,0 +1,402 @@
+Standard ML of New Jersey, Version 110.0.6, October 31, 1999 [CM; autoload enabled]
+- [opening loadInterface.sml]
+loading information about C types...
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/cc-info.sig.sml]
+signature CC_INFO =
+  sig
+    val intSzB : int
+    val shortSzB : int
+    val longSzB : int
+    val charSzB : int
+    val floatSzB : int
+    val doubleSzB : int
+    val ptrSzB : int
+    val unionAlign : int
+    val structAlign : int
+  end
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/cc-info.defaults.sml]
+structure CCInfoDefaults : CC_INFO
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/cc-info.gcc-x86-linux.sml]
+structure GCCInfoX86Linux : CC_INFO
+val it = () : unit
+loading C interface...
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sig.sml]
+signature C_CALLS =
+  sig
+    eqtype caddr
+    val NULL : caddr
+    val free : caddr -> unit
+    val index : caddr * int -> caddr
+    val difference : caddr * caddr -> Word32.word
+    datatype ctype
+      = CaddrT
+      | CarrayT of int * ctype
+      | CcharT
+      | CdoubleT
+      | CfloatT
+      | CfunctionT of ctype list * ctype
+      | CintT
+      | ClongT
+      | CptrT of ctype
+      | CshortT
+      | CstringT
+      | CstructT of ctype list
+      | CunionT of ctype list
+      | CvectorT of int * ctype
+      | CvoidT
+    datatype cdata
+      = Caddr of caddr
+      | Carray of cdata array
+      | Cchar of char
+      | Cdouble of real
+      | Cfloat of real
+      | Cfunction of cdata list -> cdata
+      | Cint of Word32.word
+      | Clong of Word32.word
+      | Cptr of cdata
+      | Cshort of Word32.word
+      | Cstring of string
+      | Cstruct of cdata list
+      | Cunion of cdata
+      | Cvector of cdata vector
+      | Cvoid
+    val datumMLtoC : ctype -> cdata -> caddr * caddr list
+    val datumCtoML : ctype -> caddr -> cdata
+    val sizeof : ctype -> int
+    val sizeofDatum : cdata -> int
+    val hasType : cdata -> ctype
+    exception EmptyAggregate
+    exception AggregateTooBig
+    exception BadReturnType of ctype
+    exception BadArgumentType of ctype
+    exception NotAPtr of ctype
+    exception UnimplementedForType
+    val registerCFn : string * ctype list * ctype
+                      -> cdata list -> cdata * caddr list
+    val registerAutoFreeCFn : string * ctype list * ctype
+                              -> cdata list -> cdata
+  end
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml]
+/home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml:275.3-303.55 Warning: match nonexhaustive
+          {align=_,size=_,typ=CaddrT'} => ...
+          {align=_,size=_,
+           typ=CarrayT'
+                 {elemtyp=elemtyp as {align=<pat>,size=<pat>,typ=<pat>},
+                  nelems=nelems}} => ...
+          {align=_,size=size,typ=CintT'} => ...
+          {align=_,size=size,typ=CshortT'} => ...
+          {align=_,size=size,typ=ClongT'} => ...
+          {align=_,size=_,typ=CcharT'} => ...
+          {align=_,size=_,typ=CdoubleT'} => ...
+          {align=_,size=_,typ=CfloatT'} => ...
+          {align=_,size=_,
+           typ=CfunctionT' {argtypes=argtypes,rettype=rettype}} => ...
+          {align=_,size=_,
+           typ=CptrT' (t  as {align=SOME <pat>,size=size,typ=_})} => ...
+          {align=_,size=_,typ=CstringT'} => ...
+          {align=_,size=_,typ=CstructT' nil} => ...
+          {align=_,size=size,typ=CstructT' l} => ...
+          {align=_,size=_,typ=CunionT' nil} => ...
+          {align=_,size=size,typ=CunionT' l} => ...
+          {align=_,size=_,
+           typ=CvectorT'
+                 {elemtyp=elemtyp as {align=<pat>,size=<pat>,typ=<pat>},
+                  nelems=nelems}} => ...
+          {align=_,size=_,typ=CvoidT'} => ...
+          {align=_,size=size,typ=padT'} => ...
+  
+/home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml:236.3-242.10 Warning: match nonexhaustive
+          (nil,acc) => ...
+          ((x  as {align=SOME <pat>,size=size,typ=typ}) :: xs,acc) => ...
+  
+/home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml:13.5-446.8 Warning: match nonexhaustive
+          Cint _ => ...
+          Cshort _ => ...
+          Clong _ => ...
+          Cstring s => ...
+          Cchar _ => ...
+          Cdouble _ => ...
+          Cfloat _ => ...
+  
+/home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml:13.5-446.8 Warning: match nonexhaustive
+          Caddr _ => ...
+          Carray a => ...
+          Cchar _ => ...
+          Cdouble _ => ...
+          Cfloat _ => ...
+          Cshort _ => ...
+          Cint _ => ...
+          Clong _ => ...
+          Cptr p => ...
+          Cstring _ => ...
+          Cstruct l => ...
+          Cunion u => ...
+          Cvector v => ...
+          Cvoid => ...
+  
+functor CCalls : <sig>
+[opening cutil.sig.sml]
+signature C_UTIL =
+  sig
+    type caddr
+    type cdata
+    val CORBin_exception_init : unit -> unit
+    val CORBin_orb_init : string -> unit
+    val CORBin_string_to_object : string -> caddr
+    val CORBin_Object_release : caddr -> unit
+    val CORBin_ORB_run : unit -> unit
+    val CORBin_ORB_resolve_initial_references : string -> caddr
+    val CORBin_PortableServer_POAManager_activate : caddr -> unit
+    val CORBin_PortableServer_POA__get_the_POAManager : caddr -> caddr
+    val CORBin_create_name : string -> caddr
+    val CORBin_CosNaming_NamingContext_resolve : caddr * caddr -> caddr
+    val CORBin_CosNaming_NamingContext_bind : caddr * caddr * caddr -> unit
+    val CORBin_Syrup_SyrupClient_create : caddr -> caddr
+    val CORBin_Syrup_SyrupClient_Message : caddr * string * string -> unit
+    val CORBin_Syrup_SyrupClient_Message_SetMLFn : (cdata list -> cdata)
+                                                   -> unit
+    val CORBin_Syrup_SyrupClient_AddUserToList : caddr * string -> unit
+    val CORBin_Syrup_SyrupClient_AddUserToList_SetMLFn : (cdata list -> cdata)
+                          -> unit
+    val CORBin_Syrup_SyrupClient_RemoveUserFromList : caddr * string -> unit
+    val CORBin_Syrup_SyrupClient_RemoveUserFromList_SetMLFn : (cdata list
+                          -> cdata)
+                          -> unit
+    val CORBin_Syrup_SyrupManager_create : caddr -> caddr
+    val CORBin_Syrup_SyrupManager_Login : caddr * string * caddr -> unit
+    val CORBin_Syrup_SyrupManager_Login_SetMLFn : (cdata list -> cdata) -> unit
+    val CORBin_Syrup_SyrupManager_Logout : caddr * string -> unit
+    val CORBin_Syrup_SyrupManager_Logout_SetMLFn : (cdata list -> cdata)
+                                                   -> unit
+    val CORBin_Syrup_SyrupManager_PostMessage : caddr * string * string -> unit
+    val CORBin_Syrup_SyrupManager_PostMessage_SetMLFn : (cdata list -> cdata)
+                          -> unit
+    val CORBin_Syrup_SyrupManager_SendMessage : caddr * string * string
+                                                * string
+                                                -> unit
+    val CORBin_Syrup_SyrupManager_SendMessage_SetMLFn : (cdata list -> cdata)
+                          -> unit
+  end
+[opening cutil.sml]
+cutil.sml:135.7-135.81 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:130.7-130.122 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:125.7-125.81 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:120.7-120.113 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:115.7-115.76 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:110.7-110.96 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:105.7-105.75 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:100.7-100.109 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:95.7-95.72 Warning: binding not exhaustive
+          Caddr an_obj = ...
+cutil.sml:90.7-90.87 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:85.7-85.103 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:80.7-80.82 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:75.7-75.98 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:70.7-70.76 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:65.7-65.108 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:60.7-60.71 Warning: binding not exhaustive
+          Caddr an_obj = ...
+cutil.sml:54.8-54.88 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:50.8-50.83 Warning: binding not exhaustive
+          Caddr s = ...
+cutil.sml:46.8-46.54 Warning: binding not exhaustive
+          Caddr s = ...
+cutil.sml:42.8-42.79 Warning: binding not exhaustive
+          Caddr s = ...
+cutil.sml:38.8-38.73 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:34.8-34.73 Warning: binding not exhaustive
+          Caddr s = ...
+cutil.sml:30.8-30.39 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:26.8-26.52 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:22.8-22.58 Warning: binding not exhaustive
+          Caddr s = ...
+cutil.sml:18.8-18.49 Warning: binding not exhaustive
+          Cvoid = ...
+cutil.sml:14.8-14.46 Warning: binding not exhaustive
+          Cvoid = ...
+functor CUtil : <sig>
+val it = () : unit
+instantiating CCalls for GCC on X86Linux...
+binding C function 'c_call'
+binding C function 'datumMLtoC'
+binding C function 'datumCtoML'
+function "free" registered
+structure CI : C_CALLS
+instantiating CUtil...
+function "CORBin_exception_init" registered
+function "CORBin_orb_init" registered
+function "CORBin_string_to_object" registered
+function "CORBin_Object_release" registered
+function "CORBin_ORB_run" registered
+function "CORBin_ORB_resolve_initial_references" registered
+function "CORBin_PortableServer_POAManager_activate" registered
+function "CORBin_PortableServer_POA__get_the_POAManager" registered
+function "CORBin_create_name" registered
+function "CORBin_CosNaming_NamingContext_resolve" registered
+function "CORBin_CosNaming_NamingContext_bind" registered
+function "CORBin_Syrup_SyrupClient_create" registered
+function "CORBin_Syrup_SyrupClient_Message" registered
+function "CORBin_Syrup_SyrupClient_Message_SetMLFn" registered
+function "CORBin_Syrup_SyrupClient_AddUserToList" registered
+function "CORBin_Syrup_SyrupClient_AddUserToList_SetMLFn" registered
+function "CORBin_Syrup_SyrupClient_RemoveUserFromList" registered
+function "CORBin_Syrup_SyrupClient_RemoveUserFromList_SetMLFn" registered
+function "CORBin_Syrup_SyrupManager_create" registered
+function "CORBin_Syrup_SyrupManager_Login" registered
+function "CORBin_Syrup_SyrupManager_Login_SetMLFn" registered
+function "CORBin_Syrup_SyrupManager_Logout" registered
+function "CORBin_Syrup_SyrupManager_Logout_SetMLFn" registered
+function "CORBin_Syrup_SyrupManager_PostMessage" registered
+function "CORBin_Syrup_SyrupManager_PostMessage_SetMLFn" registered
+function "CORBin_Syrup_SyrupManager_SendMessage" registered
+function "CORBin_Syrup_SyrupManager_SendMessage_SetMLFn" registered
+structure CU : C_UTIL
+val it = () : unit
+[opening CORBin_SyrupManager.sml]
+opening CI
+  eqtype caddr
+  val NULL : caddr
+  val free : caddr -> unit
+  val index : caddr * int -> caddr
+  val difference : caddr * caddr -> Word32.word
+  datatype ctype
+    = CaddrT
+    | CarrayT of int * ctype
+    | CcharT
+    | CdoubleT
+    | CfloatT
+    | CfunctionT of ctype list * ctype
+    | CintT
+    | ClongT
+    | CptrT of ctype
+    | CshortT
+    | CstringT
+    | CstructT of ctype list
+    | CunionT of ctype list
+    | CvectorT of int * ctype
+    | CvoidT
+  datatype cdata
+    = Caddr of caddr
+    | Carray of cdata array
+    | Cchar of char
+    | Cdouble of real
+    | Cfloat of real
+    | Cfunction of cdata list -> cdata
+    | Cint of Word32.word
+    | Clong of Word32.word
+    | Cptr of cdata
+    | Cshort of Word32.word
+    | Cstring of string
+    | Cstruct of cdata list
+    | Cunion of cdata
+    | Cvector of cdata vector
+    | Cvoid
+  val datumMLtoC : ctype -> cdata -> caddr * caddr list
+  val datumCtoML : ctype -> caddr -> cdata
+  val sizeof : ctype -> int
+  val sizeofDatum : cdata -> int
+  val hasType : cdata -> ctype
+  exception EmptyAggregate
+  exception AggregateTooBig
+  exception BadReturnType of ctype
+  exception BadArgumentType of ctype
+  exception NotAPtr of ctype
+  exception UnimplementedForType
+  val registerCFn : string * ctype list * ctype
+                    -> cdata list -> cdata * caddr list
+  val registerAutoFreeCFn : string * ctype list * ctype -> cdata list -> cdata
+opening CU
+  eqtype caddr
+  datatype cdata
+    = Caddr of ?.CI.CAddress.caddr
+    | Carray of CI.cdata array
+    | Cchar of char
+    | Cdouble of real
+    | Cfloat of real
+    | Cfunction of CI.cdata list -> CI.cdata
+    | Cint of Word32.word
+    | Clong of Word32.word
+    | Cptr of CI.cdata
+    | Cshort of Word32.word
+    | Cstring of string
+    | Cstruct of CI.cdata list
+    | Cunion of CI.cdata
+    | Cvector of CI.cdata vector
+    | Cvoid
+  val CORBin_exception_init : unit -> unit
+  val CORBin_orb_init : string -> unit
+  val CORBin_string_to_object : string -> caddr
+  val CORBin_Object_release : caddr -> unit
+  val CORBin_ORB_run : unit -> unit
+  val CORBin_ORB_resolve_initial_references : string -> caddr
+  val CORBin_PortableServer_POAManager_activate : caddr -> unit
+  val CORBin_PortableServer_POA__get_the_POAManager : caddr -> caddr
+  val CORBin_create_name : string -> caddr
+  val CORBin_CosNaming_NamingContext_resolve : caddr * caddr -> caddr
+  val CORBin_CosNaming_NamingContext_bind : caddr * caddr * caddr -> unit
+  val CORBin_Syrup_SyrupClient_create : caddr -> caddr
+  val CORBin_Syrup_SyrupClient_Message : caddr * string * string -> unit
+  val CORBin_Syrup_SyrupClient_Message_SetMLFn : (cdata list -> cdata) -> unit
+  val CORBin_Syrup_SyrupClient_AddUserToList : caddr * string -> unit
+  val CORBin_Syrup_SyrupClient_AddUserToList_SetMLFn : (cdata list -> cdata)
+                          -> unit
+  val CORBin_Syrup_SyrupClient_RemoveUserFromList : caddr * string -> unit
+  val CORBin_Syrup_SyrupClient_RemoveUserFromList_SetMLFn : (cdata list
+                          -> cdata)
+                          -> unit
+  val CORBin_Syrup_SyrupManager_create : caddr -> caddr
+  val CORBin_Syrup_SyrupManager_Login : caddr * string * caddr -> unit
+  val CORBin_Syrup_SyrupManager_Login_SetMLFn : (cdata list -> cdata) -> unit
+  val CORBin_Syrup_SyrupManager_Logout : caddr * string -> unit
+  val CORBin_Syrup_SyrupManager_Logout_SetMLFn : (cdata list -> cdata) -> unit
+  val CORBin_Syrup_SyrupManager_PostMessage : caddr * string * string -> unit
+  val CORBin_Syrup_SyrupManager_PostMessage_SetMLFn : (cdata list -> cdata)
+                          -> unit
+  val CORBin_Syrup_SyrupManager_SendMessage : caddr * string * string * string
+                                              -> unit
+  val CORBin_Syrup_SyrupManager_SendMessage_SetMLFn : (cdata list -> cdata)
+                          -> unit
+[opening SyrupManager.sml]
+SyrupManager.sml:22.3-22.40 Error: operator and operand don't agree [tycon mismatch]
+  operator domain: (string * caddr) * (string * caddr) list
+  operand:         (string * caddr) * (string * word) list
+  in expression:
+    (id,obj) :: ! user_list
+SyrupManager.sml:28.26-28.49 Error: operator and operand don't agree [tycon mismatch]
+  operator domain: (string * caddr) list
+  operand:         (string * word) list
+  in expression:
+    print_list (! user_list)
+SyrupManager.sml:38.17-38.58 Error: operator and operand don't agree [circularity]
+  operator domain: 'Z
+  operand:         'Z * (string * word) list
+  in expression:
+    remove_user_from_list (id,! user_list)
+SyrupManager.sml:61.34-61.71 Error: operator and operand don't agree [tycon mismatch]
+  operator domain: string * string * string * (string * caddr) list
+  operand:         string * string * string * (string * word) list
+  in expression:
+    send_msg (from,to,msg,! user_list)
+SyrupManager.sml:1.1-64.4 Error: value type in structure doesn't match signature spec
+    name: user_list
+  spec:   (string * caddr) list ref
+  actual: (string * word) list ref
+- 

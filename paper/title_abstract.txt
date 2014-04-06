@@ -1,0 +1,25 @@
+
+Master's Candidate:  Brian S. Corbin
+
+Thesis Option
+
+Title:  "CORBin: A System Providing CORBA Support to 
+                the Standard ML of New Jersey Compiler"
+
+Abstract:
+
+With the networked computing environment becoming more diverse, 
+technologies like the Common Object Request Broker Architecture (CORBA) 
+are becoming widely used in an effort to create software components 
+that can interoperate regardless of implementation and computing 
+platform.  Since an Object Request Broker (ORB) is needed
+to provide CORBA capability, some programming languages, like ML, 
+have gone without CORBA support. 
+Because ML provides powerful capabilities in certain problem domains,  
+the ability to develop CORBA based software in ML is highly desirable.  
+This paper describes the design and implementation of the C ORB Interface
+System (CORBin) which provides CORBA support to the Standard ML of New Jersey 
+(SML/NJ) compiler via an existing ORB with C language bindings called ORBit.  
+A distributed instant messaging application is also presented to 
+illustrate the use of CORBin with the SML/NJ compiler. 
+

@@ -1,0 +1,58 @@
+\begin{verbatim}
+
+(* Must open these structures in order to use the ML/C Interface *)
+open CI;
+open CU;
+(*****************************************************************)
+
+use "SyrupManager.sml";
+
+val naming_ior = "-ORBNamingIOR=<<<IOR of NameServer goes here!>>>";
+
+(*****set function ptrs ****)
+
+fun Login [Cstring id, Caddr obj] = 
+    (SyrupManager.add_user_to_list(id,obj);
+     Cint(0w1))
+
+fun Logout [Cstring id] = 
+    (SyrupManager.remove_user_from_list(id);
+     Cint(0w1) )
+
+fun PostMessage [Cstring id, Cstring msg] = 
+    (SyrupManager.write_message(id, msg);
+     Cint(0w1))
+
+fun SendMessage [Cstring from, Cstring to, Cstring msg] = 
+    (SyrupManager.send_message(from,to, msg);
+     Cint(0w1))
+
+val _ = CORBin_Syrup_SyrupManager_Login_SetMLFn(Login);
+val _ = CORBin_Syrup_SyrupManager_Logout_SetMLFn(Logout);
+val _ = CORBin_Syrup_SyrupManager_PostMessage_SetMLFn(PostMessage);
+val _ = CORBin_Syrup_SyrupManager_SendMessage_SetMLFn(SendMessage);
+
+val x = CORBin_exception_init() ;
+
+val x = CORBin_orb_init (naming_ior);
+
+val root_poa = 
+    CORBin_ORB_resolve_initial_references("RootPOA");
+val poa_man = 
+    CORBin_PortableServer_POA__get_the_POAManager(root_poa);
+val _ = CORBin_PortableServer_POAManager_activate(poa_man);
+
+val manager = CORBin_Syrup_SyrupManager_create(root_poa);
+
+val name_srv = CORBin_ORB_resolve_initial_references("NameService");
+
+val manager_name = CORBin_create_name("SyrupManager");
+
+val _ = CORBin_CosNaming_NamingContext_bind(name_srv, 
+                              manager_name, manager);
+
+print "Ready to serve requests!\n\n";
+val _ = CORBin_ORB_run(); 
+
+
+\end{verbatim}

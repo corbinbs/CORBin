@@ -1,0 +1,28 @@
+\begin{thebibliography}{1}
+
+\bibitem{lorenz}
+Lorenz Huelsbergen.
+\newblock {A Portable C Interface for Standard ML of New Jersey}.
+\newblock Technical Report Revision 1.0, AT\&T Bell Laboratories, January 1996.
+
+\bibitem{orbit}
+{Michael Rumpf}.
+\newblock {ORBit Resource Website}.
+\newblock HTML format, March 2001.
+
+\bibitem{omg}
+{Object Management Group}.
+\newblock {OMG's Official CORBA Website}.
+\newblock HTML format, March 2001.
+
+\bibitem{siegel}
+Jon Siegel.
+\newblock {\em CORBA 3: Fundamentals and Programming}.
+\newblock Wiley Computer Publishing, 2000.
+
+\bibitem{ullman}
+Jeffrey~D. Ullman.
+\newblock {\em Elements of ML Programming ML97 Edition}.
+\newblock Prentice-Hall Inc., 1998.
+
+\end{thebibliography}

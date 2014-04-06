@@ -1,0 +1,2 @@
+#!/bin/sh
+sml @SMLload=$CORBIN_BIN/corbin_idl.$CORBIN_ARCH-$CORBIN_OS $1

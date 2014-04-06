@@ -1,0 +1,177 @@
+
+\begin{figure*}[b]
+\figline
+ \caption{{\em Sample Grammar}.}
+\singlespace
+\begin{verbatim}
+     element --> ID "(" expression_list ")"     // array reference
+     element --> ID "(" expression_list ")"     // function call
+\end{verbatim}
+\doublespace
+   \label{predicated}
+\end{figure*}
+
+
+
+In this section,
+we overview terminology relating to name lookup
+and discuss previous research that combines software
+engineering technology to address the name lookup
+problem for {\CPP}\cite{powertools}.
+Much of the work on predicated LL(k) parsing,
+and {\CPP} parser technology, has benefitted from
+the initial research of James Roskind and
+John Lilley\cite{lilley97,Roskind89}.
+
+%\SubSection{The Roskind Grammar}
+%\SubSection{The Work of Lilley}
+
+\section{Predicated LL(k) parsing: ANTLR}
+
+The ANTLR tool can be used to construct a predicated LL(k) parser
+the output code is: {\CPP}, Java or Sather using the recursive descent
+approach described in chapter \ref{back}.
+Predicated LL(k) parsing is a version of LL(k) parsing
+that exploits predicates to permit syntactic or semantic
+information to direct the parse in a systematic way.
+For example, the two grammar productions illustrated in
+Figure \ref{predicated} look the same but have very
+different semantic meanings. These two meanings can
+be distinguished by consulting a symbol table to determine
+the definition of {\em ID}.
+If {\em ID} is defined as an array, then the first production
+in Figure \ref{predicated} should be matched;
+if {\em ID} is defined as a function name, then the second production
+should be matched.
+
+\begin{figure*}[t]
+\singlespace  
+\begin{verbatim}
+     element() {
+          if ( current_token == ID && isarray(current_token))
+             match an array reference
+          else if ( current_token == ID && isfunction(current_token))
+             match a function call
+     }
+\end{verbatim}
+   \caption{{\em Predicated LL(k) parsing}.}
+\figline  
+\doublespace
+\label{semanticpred}
+\end{figure*}
+
+In a hand-built recursive descent parser, the user
+might define function {\em element()}
+as described in Figure \ref{semanticpred},
+where {\sf isarray(current\_token)} is a function that
+returns true if the ID is defined as an array and
+where {\sf isfunction(current\_token)} returns
+true if the ID is defined as a function.
+This approach to parsing is called {\em predicated LL(k)}
+parsing, {\sf pred-LL(k)}, because at least
+one parsing decision was predicted using information
+not available to an LL(k) parser.
+
+The boolean functions {\sf isarray(current\_token)} and
+{\sf isfunction(current\_token)} are semantic
+predicates that can be incorporated into an ANTLR
+parser using the notation {\sf ``$\{...\}?''$}.
+For example, the hand-built parser for the grammar shown in
+Figure \ref{semanticpred} might be defined in an
+ANTLR grammar definition: 
+
+\singlespace
+\begin{verbatim}
+  element --> {isarray(current_token)}? ID "(" expression_list ")"
+  element --> {isfunction(current_token)}? ID "(" expression_list ")"
+\end{verbatim}
+\doublespace
+
+The ANTLR tool also permits the user to incorporate 
+syntactic predicates into the parse decision.
+For example, the {\em Original grammar} illustrated
+at the top of Figure \ref{toomany} can not be LL(k) since
+the input string might contain {\em K + 1} A's.
+This grammar can be augmented with a syntactic predicate,
+as illustrated at the bottom of Figure \ref{toomany},
+which indicates that to predict the first production,
+zero or more A's must be seen followed by a B.~~
+If this syntactic predicate fails, the second production
+will be attempted by default.
+The grammar in Figure \ref{toomany} also illustrates
+that the ANTLR tool permits regular expressions;
+in fact, the ANTLR tool permits 
+Extended Backus-Naur Form, EBNF, to be used
+to describe grammar productions.
+The paper in reference \cite{parr} claims
+that predicated LL(k) parsing can recognize a
+larger class of languages than LL(k) parsing alone.
+
+\begin{figure*}[t]
+\singlespace
+\begin{verbatim}
+                 Original grammar:
+                        a -> (A)* B
+                        a -> (A)* C
+                 ANTLR augmented grammar:
+                        a : ( (A)* B) => (A)* B
+                          | (A)* C
+                          ;
+\end{verbatim}
+  \caption{{\em Syntactic predicate}.}
+\doublespace
+  \label{toomany}
+\figline
+\end{figure*}
+
+\section{The Name Lookup Problem}
+
+In this subsection, we define terms and introduce concepts
+important for understanding the process of name lookup.
+Name lookup is a necessary part of our parser front-end because it
+allows us to find defintions for name uses and provide disambiguation for the grammar.
+In the second subsection, we overview previous research that describes an approach for
+constructing a symbol table for {\CPP}\cite{powertools}.
+
+\section{Terminology and statement of the problem}
+
+A {\em symbol table} is a data structure that stores information
+about the types of the symbols and the names of the
+symbols used in the program.  A symbol table for {\CPP} must capture and maintain
+scope information.  Name lookup is complicated by the fact there are different rules
+for name lookup in each scope defined by {\CPP}.  Some example scopes are: 
+{\em namespace}, {\em class}, {\em enumeration} and {\em template}.  A further complication
+related to name lookup is argument dependent lookup, or {\em Koenig} lookup.
+
+\begin{figure*}[t]
+ \centerline{\protect
+\mbox{\psfig{figure=Figs/package.eps,height=.35\textheight}}}
+  \caption{{\em Parser front-end design}.
+}
+   \label{fig:sysoverview}
+\figline
+\end{figure*}
+
+
+\section{Previous Approach to the Name Lookup Problem}
+
+Figure \ref{fig:sysoverview} summarizes the design of
+a system to construct a parser front-end for ISO {\CPP}\cite{powertools}.
+This contains two subsystems shown as folders in the figure.
+The UML stereotype notation is used and each subsystem is denoted as $\ll${\sf subsystem}$\gg$.
+
+The {\sf ProgramProcessor} subsystem includes a {\sf Scanner}, 
+also know as a lexer, and a {\sf Parser}.  This system looks at the input
+and directs symbol table construction and name lookup.  The ProgramProcessor 
+follows an ordered process.  First, a {\sf NameOccurrence}
+object is created.  Then a {\sf NameDeclaration} object is searched for in
+the {\sf Symbol Table} subsystem.
+
+The {\sf NameOccurrence} object encapsulates information
+needed for lookup, including a representation of the name and context information related to
+where the name occured.  The {\sf NameDeclaration} object holds information
+including the name, type, and scope.  When this information is combined the system can
+decide whether a name has been previously declared and whether the use of the name is allowed.
+
+
+

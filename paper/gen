@@ -1,0 +1,9 @@
+latex paper.tex
+bibtex paper
+latex paper.tex
+#vi paper.toc
+#vi paper.lof
+latex paper.tex
+dvips -f paper.dvi > paper.ps
+#gv paper.ps &
+

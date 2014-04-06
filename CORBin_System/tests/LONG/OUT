@@ -1,0 +1,182 @@
+Standard ML of New Jersey, Version 110.0.6, October 31, 1999 [CM; autoload enabled]
+- loading information about C types...
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/cc-info.sig.sml]
+signature CC_INFO =
+  sig
+    val intSzB : int
+    val shortSzB : int
+    val longSzB : int
+    val charSzB : int
+    val floatSzB : int
+    val doubleSzB : int
+    val ptrSzB : int
+    val unionAlign : int
+    val structAlign : int
+  end
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/cc-info.defaults.sml]
+structure CCInfoDefaults : CC_INFO
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/cc-info.gcc-x86-linux.sml]
+structure GCCInfoX86Linux : CC_INFO
+val it = () : unit
+loading C interface...
+GC #0.0.0.0.1.19:   (10 ms)
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sig.sml]
+signature C_CALLS =
+  sig
+    eqtype caddr
+    val NULL : caddr
+    val free : caddr -> unit
+    val index : caddr * int -> caddr
+    val difference : caddr * caddr -> Word32.word
+    datatype ctype
+      = CaddrT
+      | CarrayT of int * ctype
+      | CcharT
+      | CdoubleT
+      | CfloatT
+      | CfunctionT of ctype list * ctype
+      | CintT
+      | ClongT
+      | CptrT of ctype
+      | CshortT
+      | CstringT
+      | CstructT of ctype list
+      | CunionT of ctype list
+      | CvectorT of int * ctype
+      | CvoidT
+    datatype cdata
+      = Caddr of caddr
+      | Carray of cdata array
+      | Cchar of char
+      | Cdouble of real
+      | Cfloat of real
+      | Cfunction of cdata list -> cdata
+      | Cint of Word32.word
+      | Clong of Word32.word
+      | Cptr of cdata
+      | Cshort of Word32.word
+      | Cstring of string
+      | Cstruct of cdata list
+      | Cunion of cdata
+      | Cvector of cdata vector
+      | Cvoid
+    val datumMLtoC : ctype -> cdata -> caddr * caddr list
+    val datumCtoML : ctype -> caddr -> cdata
+    val sizeof : ctype -> int
+    val sizeofDatum : cdata -> int
+    val hasType : cdata -> ctype
+    exception EmptyAggregate
+    exception AggregateTooBig
+    exception BadReturnType of ctype
+    exception BadArgumentType of ctype
+    exception NotAPtr of ctype
+    exception UnimplementedForType
+    val registerCFn : string * ctype list * ctype
+                      -> cdata list -> cdata * caddr list
+    val registerAutoFreeCFn : string * ctype list * ctype
+                              -> cdata list -> cdata
+  end
+GC #0.0.0.0.2.54:   (20 ms)
+GC #0.0.0.1.3.81:   (50 ms)
+[opening /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml]
+/home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml:275.3-303.55 Warning: match nonexhaustive
+          {align=_,size=_,typ=CaddrT'} => ...
+          {align=_,size=_,
+           typ=CarrayT'
+                 {elemtyp=elemtyp as {align=<pat>,size=<pat>,typ=<pat>},
+                  nelems=nelems}} => ...
+          {align=_,size=size,typ=CintT'} => ...
+          {align=_,size=size,typ=CshortT'} => ...
+          {align=_,size=size,typ=ClongT'} => ...
+          {align=_,size=_,typ=CcharT'} => ...
+          {align=_,size=_,typ=CdoubleT'} => ...
+          {align=_,size=_,typ=CfloatT'} => ...
+          {align=_,size=_,
+           typ=CfunctionT' {argtypes=argtypes,rettype=rettype}} => ...
+          {align=_,size=_,
+           typ=CptrT' (t  as {align=SOME <pat>,size=size,typ=_})} => ...
+          {align=_,size=_,typ=CstringT'} => ...
+          {align=_,size=_,typ=CstructT' nil} => ...
+          {align=_,size=size,typ=CstructT' l} => ...
+          {align=_,size=_,typ=CunionT' nil} => ...
+          {align=_,size=size,typ=CunionT' l} => ...
+          {align=_,size=_,
+           typ=CvectorT'
+                 {elemtyp=elemtyp as {align=<pat>,size=<pat>,typ=<pat>},
+                  nelems=nelems}} => ...
+          {align=_,size=_,typ=CvoidT'} => ...
+          {align=_,size=size,typ=padT'} => ...
+  
+/home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml:236.3-242.10 Warning: match nonexhaustive
+          (nil,acc) => ...
+          ((x  as {align=SOME <pat>,size=size,typ=typ}) :: xs,acc) => ...
+  
+/home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml:13.5-446.8 Warning: match nonexhaustive
+          Cint _ => ...
+          Cshort _ => ...
+          Clong _ => ...
+          Cstring s => ...
+          Cchar _ => ...
+          Cdouble _ => ...
+          Cfloat _ => ...
+  
+/home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml:13.5-446.8 Warning: match nonexhaustive
+          Caddr _ => ...
+          Carray a => ...
+          Cchar _ => ...
+          Cdouble _ => ...
+          Cfloat _ => ...
+          Cshort _ => ...
+          Cint _ => ...
+          Clong _ => ...
+          Cptr p => ...
+          Cstring _ => ...
+          Cstruct l => ...
+          Cunion u => ...
+          Cvector v => ...
+          Cvoid => ...
+  
+GC #0.0.0.1.4.137:   (30 ms)
+GC #0.0.0.1.5.155:   (40 ms)
+GC #0.0.0.1.6.182:   (20 ms)
+GC #0.0.0.1.7.201:   (10 ms)
+GC #0.0.0.1.8.232:   (10 ms)
+GC #0.0.0.1.9.256:   (10 ms)
+GC #0.0.0.1.10.324:   (20 ms)
+GC #0.0.0.1.11.359:   (10 ms)
+functor CCalls : <sig>
+[opening cutil.sig.sml]
+signature C_UTIL =
+  sig
+    type caddr
+    val CORBin_exception_init : caddr -> Word32.word
+    val CORBin_orb_init : caddr -> Word32.word
+    val CORBin_string_to_object : caddr -> caddr
+    val CORBin_Object_release : caddr -> Word32.word
+    val CORBin_passlong_foo : caddr * Word32.word -> Word32.word
+  end
+[opening cutil.sml]
+cutil.sml:32.7-32.91 Warning: binding not exhaustive
+          Clong my_return_value = ...
+cutil.sml:26.8-26.53 Warning: binding not exhaustive
+          Cint s = ...
+cutil.sml:22.8-22.56 Warning: binding not exhaustive
+          Caddr s = ...
+cutil.sml:18.8-18.47 Warning: binding not exhaustive
+          Cint s = ...
+cutil.sml:14.8-14.53 Warning: binding not exhaustive
+          Cint s = ...
+functor CUtil : <sig>
+val it = () : unit
+instantiating CCalls for GCC on X86Linux...
+GC #0.0.0.1.12.396:   (0 ms)
+binding C function 'c_call'
+binding C function 'datumMLtoC'
+binding C function 'datumCtoML'
+structure CI : C_CALLS
+instantiating CUtil...
+can't find SMLNJ-CCalls.CORBin_passlong_foo
+
+uncaught exception CFunNotFound
+  raised at: /home/corbinbs/masters_proj/CORBin/sml_nj/src/smlnj-c/c-calls.sml:322.15-322.58
+- 

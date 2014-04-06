@@ -1,0 +1,533 @@
+(* User Declarations *)
+
+
+%%
+(* Parser Declarations *)
+
+%name Idl
+%term 
+	YABSTRACT	|	YANY	|	YATTRIBUTE	|
+	YBOOLEAN	|	YCASE	|	YCHAR		|
+	YCONST		|	YCONTEXT	|	YCUSTOM	|
+	YDEFAULT	|	YDOUBLE	|	YEXCEPTION	|
+	YENUM		|	YFACTORY	|	YFALSE	|
+	YFIXED		|	YFLOAT	|	YIN		|
+	YINOUT		|	YINTERFACE	|	YLOCAL	|
+	YLONG		|	YMODULE	|	YNATIVE		|
+	YOBJECT		|	YOCTET	|	YONEWAY		|
+	YOUT		|	YPRIVATE	|	
+	YPUBLIC		|	YRAISES	|	YREADONLY	|	
+	YSEQUENCE	|	YSHORT	|	YSTRING		|	
+	YSTRUCT		|	YSUPPORTS	|	YSWITCH	|	
+	YTRUE		|	YTRUNCATABLE	|	YTYPEDEF	|
+	YUNSIGNED	|	YUNION		|	YVALUEBASE	|
+	YVALUETYPE	|	YVOID	|	YWCHAR		|
+	YWSTRING	|	YSEMI	|	YDOT	|
+	YCOMMA		|	YCOLON	|	YCOLONCOLON	|
+	YLEFTPAREN	|	YRIGHTPAREN	|	YLEFTBRACE	|
+	YRIGHTBRACE	|	YLEFTANGLE	|	YRIGHTANGLE	|
+	YEQUALS		|	YVBAR	|	YMINUS	|
+	YPLUS		|	YTILDE	|	YMOD	|
+	YAND		|	YCARAT	|	YASTERISK	|
+	YFWDSLASH	|	YLEFTBRACKET	|	YRIGHTBRACKET	|
+	YDBLLEFTANGLE	|	YDBLRIGHTANGLE	|	YID of string 	|
+	YINTEGER of int option	|	YOCTINTEGER	|	YHEXINTEGER	|
+	YCHARLITERAL	|	YWCHARLITERAL	|	YFLOATLITERAL	|
+	YSTRINGLITERAL	|	YWSTRINGLITERAL	|	YFIXEDPTLITERAL	|
+	EOF
+
+%left YCOMMA
+%eop EOF
+%pos int
+%noshift EOF
+%nodefault
+%pure
+
+%nonterm 
+	specification of AST.exp list 	|  definition of AST.exp 	|	
+	type_dcl of AST.exp	|
+	const_dcl of AST.exp	|	except_dcl of AST.exp	|	
+	interface of AST.exp	|
+	module of AST.exp	|	value  of AST.exp |
+	interface_dcl of AST.exp  |	forward_dcl of AST.exp  |	
+	interface_header of AST.exp |
+	interface_body of AST.exp list |   interface_inheritance_spec of AST.exp list	|
+	export of AST.exp	|	attr_dcl of AST.exp	|	
+	op_dcl of AST.exp	|
+	interface_name  of AST.exp |	scoped_name of AST.exp |
+	value_dcl of AST.exp	|
+	value_abs_dcl	|	value_box_dcl	|	value_forward_dcl  |
+	type_spec of AST.ty	|	value_inheritance_spec	|
+	value_name	|	value_element	|	state_member	|
+	init_dcl	|	declarators of AST.dec list	|	init_param_decls   |
+	init_param_decl	|	init_param_attribute	|
+	param_type_spec	 of AST.ty |	simple_declarator of AST.dec	|
+	const_type of AST.ty	|	const_exp of AST.exp	|	
+	integer_type of AST.ty	|
+	char_type of AST.ty	|	wide_char_type of AST.ty	|	
+	boolean_type of AST.ty	|
+	floating_pt_type of AST.ty	|	string_type of AST.ty	|	
+	wide_string_type of AST.ty	|	fixed_pt_const_type of AST.ty	|
+	octet_type of AST.ty	|	or_expr		|	
+	xor_expr	|
+	and_expr	|	shift_expr	|	add_expr	|
+	mult_expr	|	unary_expr	|	unary_operator	|
+	primary_expr	|	literal		|	integer_literal	|
+	string_literal	|	wide_string_literal	|
+	character_literal of string	|	
+	wide_character_literal of string	|
+	fixed_pt_literal	|	floating_pt_literal	|
+	boolean_literal	|	positive_int_const of AST.exp	|	
+	type_declarator	of AST.exp |	struct_type of AST.ty	|	
+	union_type of AST.ty	|
+	enum_type of AST.ty	|	
+	constr_forward_decl	|	simple_type_spec of AST.ty	|
+	constr_type_spec of AST.ty	|   base_type_spec of AST.ty	|
+	template_type_spec of AST.ty	|	any_type of AST.ty	|	
+	object_type of AST.ty	|	value_base_type of AST.ty	|	
+	sequence_type of AST.ty	|
+	fixed_pt_type of AST.ty	|	declarator of AST.dec	|	
+	complex_declarator of AST.dec	|	array_declarator of AST.dec	|
+	signed_int of AST.ty	|	unsigned_int of AST.ty |	
+	signed_short_int    of AST.ty  |
+	signed_long_int of AST.ty 	|	signed_longlong_int of AST.ty 	|
+	unsigned_short_int of AST.ty 	|	unsigned_long_int of AST.ty	|
+	unsigned_longlong_int of AST.ty	|	member_list	|	
+	member of AST.exp	|
+	switch_type_spec of AST.ty	|	switch_body	|
+	case		|	case_label	|	element_spec	|
+	enumerator	|	fixed_array_size	|	
+	op_attribute	|    	op_type_spec of AST.ty	|	parameter_dcls	of AST.exp list|
+	raises_expr	|  	context_expr	|	param_dcl of AST.exp	|
+	param_attribute of AST.attrib	|	value_header	|
+	defs of AST.exp list		|	mo_interface_names of AST.exp list |
+	idl_file of AST.file |	mo_export of AST.exp list	| 	
+	mo_value_element   |
+	mo_value_name	| 	mo_init_param_decl	| 
+	mo_declarator of AST.dec list	|
+	mo_case_label   |	mo_enumerator	|	
+	mo_member of AST.exp list	|
+	mo_fixed_array_size	|	
+	mo_simple_declarator of AST.dec list	|
+	mo_param_dcl of AST.exp list	|	mo_scoped_name	|	
+	mo_string_literal
+
+%keyword 
+	YABSTRACT	YANY		YATTRIBUTE
+	YBOOLEAN	YCASE		YCHAR
+	YCONST		YCONTEXT	YCUSTOM	
+	YDEFAULT	YDOUBLE		YEXCEPTION
+	YENUM		YFACTORY	YFALSE
+	YFIXED		YFLOAT		YIN
+	YINOUT		YINTERFACE	YLOCAL
+	YLONG		YMODULE		YNATIVE
+	YOBJECT		YOCTET		YONEWAY	
+	YOUT		YPRIVATE	YPUBLIC		
+	YRAISES		YREADONLY	YSEQUENCE	
+	YSHORT		YSTRING		YSTRUCT	
+	YSUPPORTS	YSWITCH		YTRUE	
+	YTRUNCATABLE	YTYPEDEF 	YUNSIGNED	
+	YUNION		YVALUEBASE 	YVALUETYPE	
+	YVOID		YWCHAR  	YWSTRING	
+		
+
+%start idl_file
+
+%%
+(* Grammer Rules *)
+
+idl_file:	specification	(AST.Spec(specification))
+|		EOF	(AST.Spec(AST.NilExp :: nil))
+
+specification:	definition EOF	(definition :: nil)
+|		definition specification  (definition :: specification)
+
+definition:	type_dcl YSEMI	(type_dcl)
+|		const_dcl YSEMI	(const_dcl)
+|		except_dcl YSEMI	(except_dcl)
+|		interface YSEMI	(interface)
+|		module YSEMI	(module)
+|		value YSEMI	(value)
+
+defs:		definition defs (definition :: defs )
+|		definition	(definition :: nil)
+
+module:		YMODULE YID YLEFTBRACE defs YRIGHTBRACE  (AST.ModuleExp(Symbol.symbol YID, defs))
+
+interface:	interface_dcl	(interface_dcl)
+|		forward_dcl	(forward_dcl)
+
+interface_dcl:	interface_header YLEFTBRACE interface_body YRIGHTBRACE (AST.InterfaceDcl(interface_header, interface_body))
+|		interface_header YLEFTBRACE YRIGHTBRACE (AST.EmptyInterfaceDcl(interface_header))
+
+forward_dcl:	YABSTRACT YINTERFACE YID (AST.ForAbsInterface(Symbol.symbol YID))
+|		YLOCAL	  YINTERFACE YID (AST.ForLocalInterface(Symbol.symbol YID))
+|		YINTERFACE YID  (AST.ForInterface(Symbol.symbol YID))
+
+interface_header: 	YABSTRACT YINTERFACE YID interface_inheritance_spec (AST.AbsIntfHeader(Symbol.symbol YID, interface_inheritance_spec))
+| 			YABSTRACT YINTERFACE YID (AST.AbsIntfHeader(Symbol.symbol YID, AST.NilExp::nil))
+|			YLOCAL	  YINTERFACE YID interface_inheritance_spec (AST.LocalIntfHeader(Symbol.symbol YID, interface_inheritance_spec))
+|			YLOCAL	  YINTERFACE YID (AST.LocalIntfHeader(Symbol.symbol YID, AST.NilExp ::nil))
+|			YINTERFACE YID interface_inheritance_spec  (AST.IntfHeader(Symbol.symbol YID, interface_inheritance_spec))
+|			YINTERFACE YID (AST.IntfHeader(Symbol.symbol YID, AST.NilExp::nil))
+
+interface_body:	export interface_body	(export :: interface_body)
+|		export	(export :: nil)
+
+mo_export:	export mo_export (export :: mo_export)
+|		export	(export :: nil)
+
+export:		type_dcl YSEMI	 (type_dcl)
+|		const_dcl YSEMI  (const_dcl)
+|		except_dcl YSEMI (except_dcl)
+|		attr_dcl  YSEMI  (attr_dcl)
+|		op_dcl  YSEMI    (op_dcl)
+
+mo_interface_names:	YCOMMA interface_name mo_interface_names  (interface_name :: mo_interface_names)
+|			YCOMMA interface_name	(interface_name :: nil)
+
+interface_inheritance_spec:	YCOLON interface_name mo_interface_names (AST.NilExp :: nil)
+|				YCOLON interface_name (AST.NilExp :: nil)
+
+interface_name:		scoped_name	(scoped_name)
+
+scoped_name:		YID	(AST.ScopedName(Symbol.symbol YID))
+|			YCOLONCOLON YID (AST.ScopedName(Symbol.symbol YID))
+|			scoped_name YCOLONCOLON YID (AST.NilExp)
+
+value:		value_dcl		(value_dcl)
+|		value_abs_dcl		(AST.NilExp)
+|		value_box_dcl		(AST.NilExp)
+|		value_forward_dcl	(AST.NilExp)
+
+value_forward_dcl:	YABSTRACT YVALUETYPE YID	()
+|			YVALUETYPE YID			()
+
+value_box_dcl:		YVALUETYPE YID type_spec 	()
+
+value_abs_dcl:	YABSTRACT YVALUETYPE YID value_inheritance_spec YLEFTBRACE mo_export YRIGHTBRACE ()
+|		YABSTRACT YVALUETYPE YID value_inheritance_spec YLEFTBRACE YRIGHTBRACE ()
+|		YABSTRACT YVALUETYPE YID YLEFTBRACE mo_export YRIGHTBRACE ()
+|		YABSTRACT YVALUETYPE YID YLEFTBRACE YRIGHTBRACE ()
+
+value_dcl:	value_header YLEFTBRACE mo_value_element YRIGHTBRACE (AST.NilExp)
+|		value_header YLEFTBRACE YRIGHTBRACE (AST.NilExp)
+
+mo_value_element:	value_element mo_value_element ()
+|			value_element	()	
+
+value_header:	YCUSTOM YVALUETYPE YID value_inheritance_spec ()
+|		YCUSTOM YVALUETYPE YID ()
+|		YVALUETYPE YID value_inheritance_spec ()
+|		YVALUETYPE YID ()
+
+value_inheritance_spec: YCOLON YTRUNCATABLE value_name mo_value_name YSUPPORTS interface_name mo_interface_names ()
+|			YCOLON YTRUNCATABLE value_name mo_value_name YSUPPORTS interface_name ()
+|			YCOLON YTRUNCATABLE value_name YSUPPORTS interface_name mo_interface_names ()
+|			YCOLON YTRUNCATABLE value_name YSUPPORTS interface_name ()
+|			value_name mo_value_name YSUPPORTS interface_name mo_interface_names ()
+|			value_name YSUPPORTS interface_name mo_interface_names ()
+|			value_name mo_value_name YSUPPORTS interface_name ()
+|			value_name YSUPPORTS interface_name ()
+|			YCOLON YTRUNCATABLE value_name mo_value_name  ()
+|			YCOLON YTRUNCATABLE value_name ()
+|			value_name mo_value_name  ()
+|			value_name ()
+|			YSUPPORTS interface_name mo_interface_names ()
+|			YSUPPORTS interface_name ()
+
+mo_value_name:	YCOMMA value_name mo_value_name 	()
+|		YCOMMA value_name	()	
+
+value_name:	scoped_name	()
+
+value_element:	export		()
+|		state_member	()
+|		init_dcl	()
+
+
+state_member:	YPUBLIC type_spec declarators YSEMI ()
+|		YPRIVATE type_spec declarators YSEMI ()
+
+init_dcl:	YFACTORY YID YLEFTPAREN init_param_decls YRIGHTPAREN YSEMI ()
+|		YFACTORY YID YLEFTPAREN YRIGHTPAREN YSEMI ()
+
+init_param_decls:	init_param_decl mo_init_param_decl () 
+
+mo_init_param_decl:	YCOMMA init_param_decl mo_init_param_decl ()
+|			YCOMMA init_param_decl 	()	
+
+init_param_decl:   init_param_attribute param_type_spec simple_declarator ()
+
+init_param_attribute:	YIN   ()
+
+const_dcl:		YCONST const_type YID YEQUALS const_exp   (AST.ConstDcl(const_type, Symbol.symbol YID, const_exp))
+
+const_type:	integer_type		(integer_type)
+|		char_type		(char_type)
+|		wide_char_type		(wide_char_type)
+|		boolean_type		(boolean_type)
+|		floating_pt_type	(floating_pt_type)
+|		string_type		(string_type)
+|		wide_string_type	(wide_string_type)
+|		fixed_pt_const_type	(fixed_pt_const_type)
+|		scoped_name		(AST.ScopedType(scoped_name))
+|		octet_type		(octet_type)	
+
+const_exp:	or_expr	(AST.NilExp)
+
+or_expr:	xor_expr	()
+|		or_expr YVBAR xor_expr	()	
+
+xor_expr:	and_expr	()
+|		xor_expr YCARAT and_expr ()
+
+and_expr:	shift_expr	()
+|		and_expr YAND shift_expr ()
+
+shift_expr:	add_expr	()
+|		shift_expr YDBLRIGHTANGLE add_expr ()
+|		shift_expr YDBLLEFTANGLE  add_expr () 
+
+add_expr:	mult_expr	()
+|		add_expr YPLUS mult_expr ()
+|		add_expr YMINUS mult_expr ()
+
+mult_expr:	unary_expr	()
+|		mult_expr YASTERISK unary_expr ()
+|		mult_expr YFWDSLASH unary_expr ()
+|		mult_expr YMOD unary_expr ()
+
+unary_expr:	unary_operator primary_expr 	()
+|		primary_expr 	()
+
+unary_operator:	YMINUS	()
+|		YPLUS	()
+|		YTILDE	()
+
+primary_expr:	scoped_name	()
+|		literal		()
+|		YLEFTPAREN const_exp YRIGHTPAREN () 
+
+literal:	integer_literal 	()
+|		string_literal		()
+|		wide_string_literal	()
+|		character_literal	()
+|		wide_character_literal	()
+|		fixed_pt_literal	()
+|		floating_pt_literal	()
+|		boolean_literal		()
+
+boolean_literal:	YTRUE	()
+|			YFALSE	()
+
+positive_int_const:	const_exp	(const_exp)
+
+type_dcl:	YTYPEDEF type_declarator (AST.TypeDefDcl(type_declarator))
+|		struct_type	(AST.NilExp)
+|		union_type	(AST.NilExp)
+|		enum_type	(AST.NilExp)
+|		YNATIVE simple_declarator (AST.NilExp)
+|		constr_forward_decl	(AST.NilExp)
+
+type_declarator:	type_spec declarators	(AST.TypeDeclarator(type_spec,declarators))
+
+type_spec:	simple_type_spec	(simple_type_spec)
+|		constr_type_spec	(constr_type_spec)
+
+simple_type_spec:	base_type_spec	(base_type_spec)
+|			template_type_spec	(template_type_spec)
+|			scoped_name	(AST.NilType)
+
+base_type_spec:		floating_pt_type	(floating_pt_type)
+|			integer_type	(integer_type)
+|			char_type	(char_type)
+|			wide_char_type	(wide_char_type)
+|			boolean_type	(boolean_type)
+|			octet_type	(octet_type)
+|			any_type	(any_type)
+|			object_type	(object_type)
+|			value_base_type	(value_base_type)
+
+template_type_spec:	sequence_type	(sequence_type)
+|			string_type	(string_type)
+|			wide_string_type	(wide_string_type)
+|			fixed_pt_type	(fixed_pt_type)
+
+constr_type_spec:	struct_type	(struct_type)
+|			union_type	(union_type)
+|			enum_type	(enum_type)
+
+declarators:		declarator mo_declarator	(declarator :: mo_declarator)
+|			declarator (declarator :: nil)
+
+mo_declarator:		YCOMMA declarator mo_declarator	(declarator :: mo_declarator)
+|			YCOMMA declarator	(declarator :: nil)	
+
+declarator:		simple_declarator	(simple_declarator)
+|			complex_declarator	(complex_declarator)
+
+simple_declarator:	YID	(AST.SimpleDec(Symbol.symbol YID))
+
+complex_declarator:	array_declarator	(array_declarator)
+
+floating_pt_type:	YFLOAT	(AST.FloatType)
+|			YDOUBLE	(AST.DoubleType)
+|			YLONG YDOUBLE (AST.LongDoubleType)
+
+integer_type:		signed_int	(signed_int)
+|			unsigned_int	(unsigned_int)
+
+signed_int:		signed_short_int	(signed_short_int)
+|			signed_long_int	(signed_long_int)
+|			signed_longlong_int	(signed_longlong_int)
+
+signed_short_int:	YSHORT	(AST.ShortIntType)
+
+signed_long_int:	YLONG	(AST.LongIntType)
+
+signed_longlong_int:	YLONG YLONG	(AST.LongLongIntType)
+
+unsigned_int:		unsigned_short_int	(unsigned_short_int)
+|			unsigned_long_int	(unsigned_long_int)
+|			unsigned_longlong_int	(unsigned_longlong_int)
+
+unsigned_short_int:	YUNSIGNED YSHORT	(AST.UnsignedShortIntType)
+
+unsigned_long_int:	YUNSIGNED YLONG		(AST.UnsignedLongIntType)
+
+unsigned_longlong_int:	YUNSIGNED YLONG YLONG	(AST.UnsignedLongLongIntType)
+
+char_type:		YCHAR	(AST.CharType)
+
+wide_char_type:		YWCHAR	(AST.WCharType)
+
+boolean_type:	YBOOLEAN (AST.BooleanType)
+
+octet_type:	YOCTET	(AST.OctetType)
+
+any_type:	YANY	(AST.AnyType)
+
+object_type:	YOBJECT	(AST.ObjectType)
+
+struct_type:	YSTRUCT YID YLEFTBRACE member_list YRIGHTBRACE (AST.StructType) 	
+
+member_list:	member member_list	()
+|		member	()
+
+member:		type_spec declarators YSEMI (AST.Member(type_spec, declarators))
+
+union_type:	YUNION YID YSWITCH YLEFTPAREN switch_type_spec YRIGHTPAREN YLEFTBRACE switch_body YRIGHTBRACE  (AST.UnionType) 
+
+switch_type_spec:	integer_type	(integer_type)
+|			char_type	(char_type)
+|			boolean_type	(boolean_type)
+|			enum_type	(enum_type)
+|			scoped_name	(AST.NilType)
+
+switch_body:		case switch_body	()
+|			case 	()
+
+case:		case_label mo_case_label element_spec YSEMI	()
+|		case_label element_spec YSEMI	()
+
+mo_case_label:	case_label mo_case_label	()
+|		case_label	()	
+
+case_label:	YCASE const_exp YCOLON	()
+|		YDEFAULT YCOLON		()
+
+element_spec:	type_spec declarator	()
+
+enum_type:	YENUM YID YLEFTBRACE enumerator mo_enumerator YRIGHTBRACE   (AST.NilType)
+|		YENUM YID YLEFTBRACE enumerator YRIGHTBRACE   (AST.NilType)
+
+mo_enumerator:	YCOMMA enumerator mo_enumerator	()
+|		YCOMMA enumerator	()	
+
+enumerator:	YID	()
+
+sequence_type:	YSEQUENCE YLEFTANGLE simple_type_spec YCOMMA positive_int_const YRIGHTANGLE 	(AST.NilType)
+|		YSEQUENCE YLEFTANGLE simple_type_spec YRIGHTANGLE	(AST.NilType)
+
+string_type:	YSTRING YLEFTANGLE positive_int_const YRIGHTANGLE 	(AST.StringType(positive_int_const))
+|		YSTRING 	(AST.StringType(AST.NilExp))
+
+wide_string_type:	YWSTRING YLEFTANGLE positive_int_const YRIGHTANGLE  (AST.WStringType(positive_int_const))
+|			YWSTRING	(AST.WStringType(AST.NilExp))
+
+array_declarator:	YID fixed_array_size mo_fixed_array_size 	(AST.ArrayDec(Symbol.symbol YID)) 
+|			YID fixed_array_size (AST.ArrayDec(Symbol.symbol YID)) 
+
+mo_fixed_array_size:	fixed_array_size mo_fixed_array_size	()
+|			fixed_array_size	()	
+
+fixed_array_size:	YLEFTBRACKET positive_int_const YRIGHTBRACKET	()
+
+attr_dcl:	YREADONLY YATTRIBUTE param_type_spec simple_declarator mo_simple_declarator 	(AST.ReadOnlyAttribute(param_type_spec, simple_declarator :: mo_simple_declarator))
+|		YREADONLY YATTRIBUTE param_type_spec simple_declarator (AST.ReadOnlyAttribute(param_type_spec, simple_declarator :: nil))
+|		YATTRIBUTE param_type_spec simple_declarator mo_simple_declarator 	(AST.Attribute(param_type_spec, simple_declarator :: mo_simple_declarator))
+|		YATTRIBUTE param_type_spec simple_declarator (AST.Attribute(param_type_spec, simple_declarator :: nil))
+
+mo_simple_declarator:	YCOMMA simple_declarator mo_simple_declarator	(simple_declarator :: mo_simple_declarator)
+|			YCOMMA simple_declarator	(simple_declarator :: nil)	
+
+except_dcl:	YEXCEPTION YID YLEFTBRACE mo_member YRIGHTBRACE	(AST.ExceptDcl(Symbol.symbol YID, mo_member))
+|		YEXCEPTION YID YLEFTBRACE YRIGHTBRACE	(AST.ExceptDcl(Symbol.symbol YID, AST.NilExp :: nil))
+
+mo_member:	member mo_member	(member :: mo_member)
+|		member	(member :: nil)	
+
+op_dcl:		op_attribute op_type_spec YID parameter_dcls raises_expr context_expr	(AST.NilExp)
+|	op_attribute op_type_spec YID parameter_dcls raises_expr (AST.NilExp)
+|	op_attribute op_type_spec YID parameter_dcls context_expr	(AST.NilExp)
+|	op_attribute op_type_spec YID parameter_dcls (AST.OpExp(op_type_spec, Symbol.symbol YID, parameter_dcls))
+|	op_type_spec YID parameter_dcls raises_expr context_expr	(AST.NilExp)
+|	op_type_spec YID parameter_dcls raises_expr (AST.NilExp)
+|	op_type_spec YID parameter_dcls context_expr	(AST.NilExp)
+|	op_type_spec YID parameter_dcls (AST.OpExp(op_type_spec, Symbol.symbol YID, parameter_dcls))
+
+op_attribute:	YONEWAY	()
+
+op_type_spec:	param_type_spec	(param_type_spec)
+|		YVOID		(AST.VoidType)
+
+parameter_dcls:	YLEFTPAREN param_dcl mo_param_dcl YRIGHTPAREN	(param_dcl :: mo_param_dcl)
+|		YLEFTPAREN param_dcl YRIGHTPAREN	(param_dcl :: nil)
+|		YLEFTPAREN YRIGHTPAREN	(AST.NilExp :: nil)
+
+mo_param_dcl:	YCOMMA param_dcl mo_param_dcl	(param_dcl :: mo_param_dcl)
+|		YCOMMA param_dcl	(param_dcl :: nil)	
+
+param_dcl:	param_attribute param_type_spec simple_declarator	(AST.ParamExp(param_attribute, param_type_spec, simple_declarator))
+
+param_attribute:	YIN	(AST.InAttrib)
+|			YOUT	(AST.OutAttrib)
+|			YINOUT	(AST.InOutAttrib)
+
+raises_expr:	YRAISES YLEFTPAREN scoped_name mo_scoped_name YRIGHTPAREN  ()
+|		YRAISES YLEFTPAREN scoped_name YRIGHTPAREN  ()
+
+mo_scoped_name:	YCOMMA scoped_name mo_scoped_name	()
+|		YCOMMA scoped_name	()
+
+context_expr:	YCONTEXT YLEFTPAREN string_literal mo_string_literal YRIGHTPAREN ()
+|		YCONTEXT YLEFTPAREN string_literal YRIGHTPAREN ()
+
+mo_string_literal:	YCOMMA string_literal mo_string_literal ()
+|			YCOMMA string_literal	()	
+
+param_type_spec:	base_type_spec	(base_type_spec)
+|			string_type	(string_type)
+|			wide_string_type	(wide_string_type)
+|			scoped_name	(AST.ScopedType(scoped_name))
+
+fixed_pt_type:		YFIXED YLEFTANGLE positive_int_const YCOMMA positive_int_const YRIGHTANGLE	(AST.NilType)
+
+fixed_pt_const_type:	YFIXED	(AST.FixedPtType)
+
+value_base_type:	YVALUEBASE	(AST.ValueBaseType)
+
+constr_forward_decl:	YSTRUCT YID	()
+|			YUNION  YID	()
+

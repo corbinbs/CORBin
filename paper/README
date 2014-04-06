@@ -1,0 +1,9 @@
+
+
+Read the thesis.sty about how to make a table of
+contents page
+break.  Basically you have to add a line to the
+paper.toc then run latex
+one more time.
+
+

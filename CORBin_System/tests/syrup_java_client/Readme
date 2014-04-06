@@ -1,0 +1,5 @@
+Note:
+
+	You must change the InitialHost and InitialPort in the `run_syrup'
+script to be the host and port that your CORBA NameServer is using.
+

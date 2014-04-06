@@ -1,0 +1,6 @@
+
+interface date {
+	string getDate();
+	long getMonth();
+	void setDate(in string d);
+};

@@ -1,0 +1,721 @@
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                This Style was modified by                      %%
+%%                       CORBIN                                   %%
+%%                http://www.corbinator.com                       %%
+%%                                                                %%
+%%       It now can be used to produce documents                  %%
+%%       that conform to the format set forth by                  %%
+%%       the graduate school of Clemson University.               %%
+%%       This format can be found in "THE GUIDE."                 %%
+%%       This style file was produced using the 2001              %%
+%%       version of "THE GUIDE."  Future versions may             %%
+%%       require modification to this file.                       %% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                  %
+%    Thesis and Dissertation Style                                 %
+%    Colorado State University                                     %
+%    Thad Mauney     Fall l984                                     %
+%    Revised Summer 1985 - Scott Douglas                           %
+%    Greatly revised June 1985 - Gary Herron                       %
+%    Customized for me, by me Jun'85 - P. Fitzhorn                 %
+%    Customized more and better Dec'85 - Gary Herron, Tom Wood     %
+%    Hacked and mangled to fit Clemson format Aug'91 - David Aalfs %
+%    Further hacked by Stefan King in order to create the TOC,     %
+%      LOF, and LOT as well as fix the spacing problems seen       %
+%      in the previous versions the Appendix section is closer     %
+%      but still needs some work                                   %
+%    Manfred Kraess April '93  (changes in Reference List)         %
+%    Appendix section hacked to fit grad school format and allow   %
+%      for multiple appendicies, new command \captioncont added    %
+%      to create a caption for continued figures                   %
+%      Curtis Ballard, April '94                                   %
+%      Krishna Sundararaman, April '97                             %
+%	Karthick Chinnaswami, June '97				   %
+%                                                                  %
+%%%%%   NOT GUARANTEED TO PASS GRADUATE SCHOOL STANDARDS    %%%%%%%%
+%        BUT CLOSE ENOUGH NOT TO BE A WASTE OF TIME                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% You WILL have to do some hacking on this in order to make it perfect 
+% but it is WELL worth your time to use latex.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Create a main file thesis.tex which inputs the thesis style file, defines the
+% appropriate parameters, and includes each thesis part in the correct order and
+% under the correct format modes.  For example:
+%
+%       \documentstyle[12pt,thesis]{ireport}
+       \input{psfig.sty}  % if you want to include PS-files!     
+%
+%       \author{Some Name}
+%       \title{Some Title}
+%       \department{Department of Computer Science}
+%       \dissertation{dissertation}
+%       \semester{Some Semester}
+%
+%       \begin{document}
+%           \preliminaries 
+%               \include{head}
+%           \body
+%               \include{chapter1}
+%               \include{chapter2}
+%           \appendices
+%               \include{appenda}
+%               \include{appendb}
+%           \references{thesis} %i.e., references are found in file thesis.bib
+%       \end{document}
+%
+% The preliminaries in head.tex can contain any of the following in any order,
+% but the following order is recommended:
+%
+%       \makesignature          % Makes the signature page.
+%       \maketitle              % Makes the title page.
+%
+%       \begin{abstract} Text for abstract ...  \end{abstract}
+%       \begin{acknowledgments} Acknowledgment text ... \end{acknowledgments}
+%       \begin{dedication} Text for dedication ...  \end{dedication}
+%
+%       \tableofcontents        % Makes the table of contents.
+%       \listoftables           % Makes the list of tables.
+%       \listoffigures          % Makes the list of figures.
+%
+%  NOTE: The pagebreaks in these lists are not yet perfect!
+%        To get the comments "Table of Contents (Continued)", etc., add the
+%        lines "\contentspagebreak", "\figurepagebreak" or "\tablepagebreak"
+%        at the appropriate position in the "*.toc", "*.lot" and "*.lof" files.
+%        (Before the last time you run LaTeX!).
+%
+%       To get linebreaks within entries in the table of contents etc. use 
+%       the following:
+%       \chapter[first line text \protect{ \\ \hspace*{13mm}} second line text]
+%                {title as it appears in chapter}
+%        This indents the second line by two spaces, change 13mm for sections
+%        and subsections.
+%
+% The body section should include one file for each chapter.  They should look:
+%
+%       \chapter{...title...}
+%         ...text...
+%       \section{...title...}
+%         ...text...
+%       \subsection{...title...}
+%         ...text...
+%       \subsubsection{...title...}
+%         ...text...
+%
+% The appendix section includes one file for each appendix. They should look:
+%
+%       \appendix{...title...}
+%          ...text...
+%       [sections and subsections as in chapters]
+%
+% The reference section is built by bibtex.  Cites are specified by \cite{ref}.
+% The data base of possible references is maintained in a file thesis.bib.
+% See the bibtex manual for details.
+% 
+% To run:
+%    Command 'latex thesis' takes thesis.tex and produces thesis.dvi and many
+%    auxiliary files.  Command 'bibtex thesis' takes thesis.bib and produces
+%    thesis.bbl which is included by lrep12 to build the page(s) of references.
+%
+%
+%
+\hoffset=0in \voffset=0in
+%
+%\font\twelvrm=cmr10 scaled\magstep1
+%\font\elvrm=cmr10 scaled\magstephalf
+%\font\ninerm=cmr9
+%\font\eightrm=cmr8
+%\font\sevenrm=cmr7
+%\font\sixrm=cmr6
+%\font\fiverm=cmr5
+%
+%\font\twelvmi=cmmi10 scaled\magstep1
+%\font\elvmi=cmmi10 scaled\magstephalf
+%\font\ninemi=cmmi9
+%\font\eightmi=cmmi8
+%\font\sevenmi=cmmi7
+%\font\sixmi=cmmi6
+%\font\fivemi=cmmi5
+%
+%\font\twelvsy=cmsy10 scaled\magstep1
+%\font\elvsy=cmsy10 scaled\magstephalf
+%\font\ninesy=cmsy9
+%\font\eightsy=cmsy10 at 8pt
+%\font\sevensy=cmsy10 at 7pt
+%\font\sixsy=cmsy6
+%\font\fivesy=cmsy6
+%
+%\font\elvit=cmti10 scaled\magstephalf
+%\font\elvbf=cmbx10 scaled\magstephalf
+%\font\elvss=cmss10 scaled\magstephalf
+%
+\font\sll=cmsl10
+%
+%
+\typeout{!! Thesis style !!}
+%
+% Set up title page macros and defaults.
+\def\dissertation#1{\gdef\Zdissertation{#1}}
+\def\title#1{\gdef\Ztitle{#1}}
+\def\author#1{\gdef\Zauthor{#1}}
+\def\advisor#1{\gdef\Zadvisor{#1}}
+\def\degree#1{\gdef\Zdegree{#1}}
+\def\subdate#1{\gdef\Zsubdate{#1}}
+\def\semester#1{\gdef\Zsemester{#1}}
+\def\department#1{\gdef\Zdepartment{#1}}
+%
+\dissertation{dissertation}
+\title{---}
+\author{---}
+\advisor{---}
+\degree{---}
+\subdate{---}
+\semester{---}
+\department{---}
+%
+%
+% These define the codes to create space after punctuation
+\def\frenchspacing{\sfcode`\.\@m \sfcode`\?\@m \sfcode`\!\@m
+        \sfcode`\:\@m \sfcode`\;\@m \sfcode`\,\@m}
+\def\nonfrenchspacing{\sfcode`\.8000\sfcode`\?8000\sfcode`\!6000%
+        \sfcode`\:2000\sfcode`\;1500\sfcode`\,1250 }
+
+%\def\tstvadjust#1{\@bsphack\vadjust{\penalty #1}\@esphack}
+
+\def\preliminaries{\doublespace\nonfrenchspacing\pagenumbering{roman}\setcounter{page}{1}}
+
+\def\body{\eject\doublespace\nonfrenchspacing\pagenumbering{arabic}\setcounter{page}{1}\eject}
+\def\references#1{{\singlespace\bibliographystyle{unsrt}\bibliography{#1}}}
+\def\@refchapter#1{\ifnum \c@secnumdepth>\m@ne \refstepcounter{chapter}
+\typeout{\@chapapp\space\thechapter.}
+
+% New styles for section headings without section numbers
+% Thesis Guidelines Review : subheadings, p14
+% Krishna	changed in 'ireport.sty'
+% undone by chika June '97
+%\def\thesection{}
+%\def\thesubsection{}
+%\def\thesubsubsection {\thesubsection .\arabic{subsubsection}}
+%\def\theparagraph {\thesubsubsection.\arabic{paragraph}}
+%\def\thesubparagraph {\theparagraph.\arabic{subparagraph}}
+%\renewcommand{\numberline}[1]{\ifnum\@usenumber>0\hbox to\@tempdima{#1\hfil}\fi}
+
+%mwk
+%  \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}
+%  mjk\addcontentsline{toc}{chapter}{\protect\vskip -2em \protect\flushleft #1}
+
+% \addtocontents{toc}{\protect\vspace{-4ex}}		kris
+  \addcontentsline{toc}{chapter}{\protect\flushleft \uppercase{#1}}
+  \else
+  \addcontentsline{toc}{chapter}{\uppercase{#1}}\fi
+  \chaptermark{#1}
+  \if@twocolumn \@topnewpage[\@makechapterhead{\protect \flushleft #1}]\else%
+  \@makeschapterhead{#1}\@afterheading\fi}%
+
+%SHK modified CCB 5,94
+\def\@appchapter#1{
+  \addcontentsline{toc}{chapter}{\uppercase{#1}}
+  \@makeappchaphead{#1}\@afterheading
+}
+
+% Reference section changed with respect to Graduate School Guidelines
+% MJK 04 93
+\newdimen\bibindent
+\bibindent=5.5ex
+\def\thebibliography#1{{\let\@schapter=\@refchapter \chapter*{References}}
+ \vspace{1ex}
+ \singlespace
+ \list{\arabic{enumi}.}{
+   \settowidth\labelwidth{[#1]}
+   \leftmargin\labelwidth
+   \advance\leftmargin\labelsep
+   \advance\leftmargin\bibindent
+   \itemindent -\bibindent
+   \listparindent \itemindent
+   % \parsep \z@
+   \usecounter{enumi}
+  }
+  \def\newblock{\hskip .11em plus .33em minus -.07em}
+  \sloppy
+  \sfcode`\.=1000\relax}
+
+% OLD REFERENCE SECTION:
+%\def\thebibliography#1{%{\let\@schapter=\@refchapter \chapter*{REFERENCES}}
+%  \vspace{1ex}
+%  \singlespace 
+%  \list{\arabic{enumi}.}{
+%    \settowidth\labelwidth{[#1]}
+%    \leftmargin\labelwidth 
+%    \advance\leftmargin\labelsep 
+%    \usecounter{enumi}
+%  }
+%  \paragraph{}
+%  \def\newblock{\hskip .11em plus .33em minus -.07em}
+%  \sloppy
+%  \sfcode`\.=1000\relax
+%}
+
+
+%SHK
+\def\contentspagebreak{
+        \pagebreak
+	\pagestyle{myheadings} \markright{} 
+        \begin{flushleft}
+        Table of Contents (Continued)
+        \end{flushleft}
+        \vspace{-1ex}
+        \hfill Page\\
+}
+
+% FIGUREPAGEBREAK added MJK 04 93
+\def\figurepagebreak{
+        \pagebreak
+	\pagestyle{myheadings} \markright{} 
+        \begin{flushleft}
+        List of Figures (Continued)
+        \end{flushleft}
+        \vspace{-1ex}
+	\begin{center}
+        Figure \hfill Page\\
+	\end{center}
+}
+
+% TABLEPAGEBREAK added MJK 04 93
+\def\tablepagebreak{
+        \pagebreak
+	\pagestyle{myheadings} \markright{} 
+        \begin{flushleft}
+        List of Tables (Continued)
+        \end{flushleft}
+        \vspace{-1ex}
+        \hfill Page\\
+}
+
+
+\def\tocpagebreak{ \addtocontents{toc}{\protect \contentspagebreak} }
+
+\def\contentsline#1{\singlespace \csname l@#1\endcsname}
+
+\def\tableofcontents{
+\pagestyle{myheadings} \markright{} 
+{%\singlespace
+\newpage\null
+\thispagestyle{empty}
+% SHK
+% \vskip 7pt
+  \begin{center}
+%  \vskip 9pt
+   {\large\bf \uppercase{Table of Contents}}\\
+%  \vspace{1ex}			kris
+   \vspace{3ex}
+   \hfill Page
+  \end{center}
+  \thispagestyle{empty}
+\singlespace
+%mwk 
+%  \vskip 16pt
+% \begin{flushright} {Page} 
+%  \end{flushright}
+%mwk
+% \end{center}
+%  \vskip -1ex
+% \vspace{1em}
+  \@starttoc{toc}}}
+%
+\def\listoftables{
+  \pagestyle{myheadings} \markright{} 
+  {\newpage\thispagestyle{empty}\null %\vskip -1pt
+  \thispagestyle{empty}\null
+  \addcontentsline{toc}{prelim}{LIST \ OF \ TABLES} 
+  \addtocontents{toc}{\protect\vspace{2ex}}
+  \begin{center}
+% \vskip -1.2pt
+   {\large\bf \uppercase{List \ of \ Tables}} \\
+%  \vspace{1ex}			kris
+   \vspace{3ex}
+%  \vspace {24pt}
+%  \parbox{2in}{\hskip 1.5em Figure}\parbox{3in}{\raggedleft Page} \\
+  Table \hfill Page\\
+  \vspace{-1ex}
+  \end{center}
+%  \vspace*{-22pt}
+%  \vskip -9pt
+ \renewcommand{\contentsline}[1]{\singlespace \protect{\protect\addvspace{10pt}} \csname l@##1\endcsname}
+  \@starttoc{lot}}}
+%
+
+\def\listoffigures{
+  \pagestyle{myheadings} \markright{} 
+  {\newpage\null
+  \thispagestyle{empty}
+  \addcontentsline{toc}{prelim}{LIST \ OF \ FIGURES}
+  \addtocontents{toc}{\protect\vspace{2ex}}
+  \addtocontents{toc}{CHAPTER}
+  %\addtocontents{toc}{\protect\vspace{2ex}}
+  \thispagestyle{empty}
+
+\begin{center}
+   {\large\bf \uppercase{List \ of \ Figures} }\\
+   \vspace{3ex}
+  Figure \hfill Page\\
+  \vspace{-1ex}
+  \end{center}
+ \renewcommand{\contentsline}[1]{\singlespace \protect{\protect\addvspace{10pt}} \csname l@##1\endcsname}
+  \@starttoc{lof}}}
+%
+
+\long\def\@makefntext#1{\parindent=18pt$^{\@thefnmark}$#1\par}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%CORBIN Modification to conform to the %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%"F$*KIN GUIDE".                       %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%Capitalized "stuff" since it is a     %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%       "First Level Heading"          %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\abstract{\newpage
+%\vskip -3pt
+   \pagestyle{myheadings} \markright{} 
+   \thispagestyle{empty}\null
+   \addcontentsline{toc}{prelim}{ABSTRACT} 
+   \addtocontents{toc}{\protect\vspace{2ex}}
+   \begin{center}
+%   \vskip -1.5pt
+      {\large\bf \uppercase{Abstract}}
+   \end{center}
+%   \vspace{2em}        
+%  \vskip -1.25pt
+   \par}
+%
+\def\endabstract{\newpage}
+%
+\def\dedication{\newpage\thispagestyle{empty}\null
+%\vskip -3pt
+  \addcontentsline{toc}{prelim}{DEDICATION} 
+  \addtocontents{toc}{\protect\vspace{2ex}}
+  \begin{center}
+%  \vskip -1.5pt
+   {\large\bf \uppercase{Dedication}} \end{center}
+%  \vskip -1.25pt
+  \par}
+%
+\def\enddedication{\newpage}
+%
+\def\acknowledgments{\newpage
+%\vskip -3pt
+  \pagestyle{myheadings} \markright{} 
+  \thispagestyle{empty}
+  \addcontentsline{toc}{prelim}{ACKNOWLEDGMENTS} 
+  \addtocontents{toc}{\protect\vspace{2ex}}
+  \begin{center}
+%  \vskip -1.5pt
+   {\large\bf \uppercase{Acknowledgments}} 
+  \end{center}
+%  \vspace{2em}
+%  \vskip -1.25pt
+  \par}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%End Corbin Modification%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\def\endacknowledgments{\newpage}
+%
+\def\appendices{\newpage\thispagestyle{empty} %\null
+        %mjk\addcontentsline{toc}{chapter}{\protect\vskip -2em \protect\flushleft APPENDICES} 
+         \addtocontents{toc}{\protect\vskip -4ex}
+         \addcontentsline{toc}{chapter}{\protect\flushleft APPENDIX}
+         \addtocontents{toc}{\protect\vskip 2ex}
+%        \vskip 4in
+%        \begin{center}
+%        APPENDIX
+%        \end{center}
+%        \par
+%        \newpage
+        \setcounter{chapter}{0}
+        \setcounter{section}{0}
+	\setcounter{subsection}{0}
+%CCB
+        \renewcommand{\thechapter}{\Alph{chapter}}
+        \renewcommand{\thetable}{\thechapter-\@arabic\c@table}
+        \renewcommand{\thefigure}{\thechapter-\@arabic\c@figure}
+        \renewcommand{\@makechapterhead}{\@makeappchaphead}
+        \doublespace\nonfrenchspacing %KFC
+        }
+%
+\def\ps@topnumber{\def\@oddhead{\hfil\rm\thepage}\let\@evenhead=\@oddhead\def\@oddfoot{}\let\@evenfoot=\@oddfoot}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%  \maketitle was modified by CORBIN to conform to       %%%%%%%%%%
+%%%%%%%%%%          "The F*$KIN GUIDE"                            %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\maketitle{\thispagestyle{empty}
+%        \addtocontents{toc}{\begin{flushright}Page\end{flushright}}
+        \addcontentsline{toc}{prelim}{TITLE \ PAGE} 
+        \addtocontents{toc}{\protect\vspace{2ex}}
+        \begin{center}
+              %\null\vskip 80pt
+                  \null\vskip 1.125in
+              \parbox{3.9in}{\centering \bf\uppercase\expandafter{\Ztitle}}\\
+              \null\vskip .10in
+              \rule{3.5in}{1pt}\\[-18pt]
+              \makebox[3.5in][l]{}\\
+	      A Thesis\\
+              Presented to\\
+              the Graduate School of \\
+	      Clemson University\\
+              \rule{3.5in}{1pt}\\[-18pt]
+              \makebox[3.5in][l]{}\\
+              In Partial Fulfillment\\
+              of the Requirements for the Degree  \\
+              \Zdegree\\
+              \Zdepartment\\
+              \rule{3.5in}{1pt}\\[-18pt]
+              \makebox[3.5in][l]{}\\
+              by\\
+              \Zauthor\\
+	      \Zsemester\\
+              \makebox[3.5in][l]{}\\
+	      Advisor: \Zadvisor
+              \null
+       \end{center} \newpage}
+
+\def\makesignature{\thispagestyle{empty}\newpage\singlespace\null
+% assumes it was in double space
+%\vskip 0.5in
+        %\vskip 0.3125in
+\singlespace
+        \vskip 0.325in
+        \hskip 2.75in \Zsubdate %Deadline date for submission to Grad Sch 
+        \vskip 3\baselineskip
+        \par\noindent To the Graduate School:
+        \vskip \baselineskip
+        \par This thesis entitled ``\Ztitle'' and written by \Zauthor\ is
+        presented to the Graduate School of Clemson University. I recommend
+        that it be accepted in partial fulfillment of the requirements for the 
+        degree of \Zdegree\ with a major in \Zdepartment.  
+        \vskip 2\baselineskip
+        \begin{flushright}
+              \rule{3in}{1pt}\\[0pt]
+              \makebox[3in][l]{Dr$.$ D$.$ E$.$ Stevenson, Thesis Advisor}
+        \end{flushright}
+        \vskip 3\baselineskip
+        We have reviewed this thesis\\
+        and recommend its acceptance:
+        \vskip 2\baselineskip
+        \begin{flushleft}
+              %\rule{3in}{1pt}\\[2\baselineskip]
+              \rule{3in}{1pt}
+              \makebox[3in][l]{Dr$.$ Brian Malloy}
+              \\[2\baselineskip] 
+	      \rule{3in}{1pt}
+              \makebox[3in][l]{Dr$.$ Sandee Hedetniemi}
+              \\[2\baselineskip] 
+        \end{flushleft}
+        \vskip 4\baselineskip
+        \rightline{\vbox{
+              \hbox{Accepted for the Graduate School:}
+              \vskip 2\baselineskip
+              \hbox{\rule{3in}{1pt}}}}
+%        \hskip 3in Accepted for the Graduate School:
+%        \vskip 2\baselineskip
+%        \begin{flushright}
+%              \rule{3in}{1pt}\\
+%              \makebox[3in][l]{}\\
+%        \end{flushright}
+         \newpage\doublespace}
+%
+\def\singlespace{\@normalsize}
+%
+\def\doublespace{\@normalsize \let\@currsize\doublespace
+        \baselineskip 1.65\baselineskip plus .9pt minus .9pt
+        \normalbaselineskip\baselineskip}
+%
+\def\chapzzz{\vspace*{21pt}}
+\def\chapszzz{\vspace*{13pt}}
+\def\@chapapp{CHAPTER}
+%
+% \@makechapterhead {TEXT} : Makes the heading for the \chapter command.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%This was modifed by CORBIN to conform to "The F$%CKIN GUIDE"%%%%%%%%
+%%%%%%%%%that was created in MS Word by the Graduate School          %%%%%%%%
+%%%%%%%%%What the HELL!!                                             %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\@makechapterhead#1{             % Heading for \chapter command
+        \begin{center}
+        \vspace*{0.2in}
+        {\large\bf \uppercase {Chapter \thechapter}}
+        \par
+        {\large\bf \uppercase {#1}} \par
+%       \vspace{-2ex}
+        \end{center}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%         END CORBIN MODIFICATION!                           %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\@makeappchaphead#1{             % Heading for \appchapter command
+        \begin{center}
+        APPENDIX %arvind \thechapter
+        \par
+        #1 \par
+        \vspace{-2ex}
+        \end{center}
+}
+
+%% \@makeschapterhead {TEXT} : Makes the heading for the \chapter* command.
+\def\@makeschapterhead#1{               % Heading for \chapter* command
+        \begin{center}
+        \vspace*{0.2in}
+        {\large\bf \uppercase{#1}} \par
+        \vspace{-2ex}
+        \end{center}
+  }
+
+%
+\def\@afterheading{} % Allow indenting after headings.
+%
+% \@startsection {NAME}{LEVEL}{INDENT}{BEFORESKIP}{AFTERSKIP}{STYLE}
+%            optional * [ALTHEADING]{HEADING}
+%    Generic command to start a section.
+%    NAME       : e.g., 'subsection'
+%    LEVEL      : a number, denoting depth of section -- e.g., chapter=1,
+%                 section = 2, etc.  A section number will be printed if
+%                 and only if LEVEL < or = the value of the secnumdepth
+%                 counter.
+%    INDENT     : Indentation of heading from left margin
+%    BEFORESKIP : skip to leave above the heading
+%    AFTERSKIP  : if positive, then skip to leave below heading,
+%                       else - skip to leave to right of run-in heading.
+%    STYLE      : commands to set style
+%  If '*' missing, then increments the counter.  If it is present, then
+%  there should be no [ALTHEADING] argument.  A sectioning command
+%  is normally defined to \@startsection + its first six arguments.
+
+%\def\appendix{\newpage\clearpage \global\@topnum 0 \@afterindentfalse \secdef\@appendix\@appchapter} 
+%\def\appendix{\newpage\clearpage \global\@topnum 0 \@afterindentfalse \secdef\@appendix\@appchapter} 
+% Above line commented out, this appendix macro added CCB April, 1994
+\def\@myaddtocontents{
+        \addtocontents{toc}{\protect\vskip -4ex}
+        }
+\def\appendix{\@myaddtocontents \clearpage \global\@topnum 0 \@afterindentfalse \secdef\@chapter\@appchapter} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%CORBIN added \pagestyle{} stuff  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\chapter{\clearpage \pagestyle{myheadings} \markright{} \thispagestyle{empty} \global\@topnum\z@ \@afterindentfalse \secdef\@chapter\@schapter} 
+
+\def\section{\@startsection {section}{1}{\z@}{4ex plus 1ex minus
+    .2ex}{.001pt  plus .2ex}{\protect\large\bf\protect\centering}}
+\def\subsection{\@startsection {subsection}{2}{\z@}{4ex plus 1ex minus
+     .2ex}{.001pt plus .2ex}{\bf\protect\centering}} 
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}
+     {3.25ex plus 1ex minus .2ex}{.001pt plus .2ex}{\normalsize\it}}
+\def\paragraph{\@startsection
+     {paragraph}{4}{\z@}{3.25ex plus 1ex minus .2ex}{-1em}{\normalsize}}
+\def\subparagraph{\@startsection
+     {subparagraph}{4}{\parindent}{3.25ex plus 1ex minus
+     .2ex}{-1em}{\normalsize}}   % was \bf
+%
+% DDA 5\15\91
+%
+\mark{{}{}}
+
+\if@twoside \def\ps@headings{\let\@mkboth\markboth
+\def\@oddfoot{}\def\@evenfoot{}\def\@evenhead{\rm \thepage\hfil \sl
+\leftmark}\def\@oddhead{\hbox{}\sl \rightmark \hfil
+\rm\thepage}\def\chaptermark##1{\markboth {\uppercase{\ifnum \c@secnumdepth
+>\m@ne
+ \@chapapp\ \thechapter. \ \fi ##1}}{}}\def\sectionmark##1{\markright
+{\uppercase{\ifnum \c@secnumdepth >\z@
+ \ \fi ##1}}}}
+\else \def\ps@headings{\let\@mkboth\markboth
+\def\@oddfoot{}\def\@evenfoot{}\def\@oddhead{\hbox {}\sl \rightmark \hfil
+\rm\thepage}\def\chaptermark##1{\markright {\uppercase{\ifnum \c@secnumdepth
+>\m@ne
+\@chapapp\ \thechapter. \ \fi ##1}}}}
+\fi
+\def\ps@myheadings{\let\@mkboth\@gobbletwo
+\def\@oddhead{\hbox{}\sl\rightmark \hfil
+\rm\thepage}\def\@oddfoot{}\def\@evenhead{\rm \thepage\hfil\sl\leftmark\hbox
+{}}\def\@evenfoot{}\def\chaptermark##1{}%
+\def\sectionmark##1{}\def\subsectionmark##1{}}
+%
+%
+\long\def\@makecaption#1#2{
+ \vskip 10pt
+ %\setbox\@tempboxa\hbox{#1: #2}
+ \centering \setbox\@tempboxa\hbox{#1: #2}
+ #1 \hspace*{0.3em} #2\par
+ }
+% \ifdim \wd\@tempboxa >\hsize #1: #2\par \else \hbox
+%to\hsize{\hfil\box\@tempboxa\hfil}
+% \fi}
+%
+%
+\long\def\@caption#1[#2]#3{\par\addcontentsline{\csname
+%mwk
+%  ext@#1\endcsname}{#1}{\protect\numberline{\csname
+  ext@#1\endcsname}{#1}{\protect \hspace*{-0.5em} \numberline{\hfill \csname
+  the#1\endcsname}{\ignorespaces \hspace{0.5em} #2}}\begingroup
+    \@parboxrestore
+    \normalsize
+    \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}
+    %\vskip 2\baselineskip 
+        \par
+  \endgroup}
+
+% Caption for continued figures, no TOC entry and no counter change 
+% CCB 4,1994
+
+\def\captioncont{\refstepcounter\@captype \@dblarg{\@captioncont \@captype} }
+
+\long\def\@captioncont#1[#2]#3{\begingroup
+    \@parboxrestore
+    \normalsize
+    \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}
+    \par
+  \endgroup}
+
+%
+% Set up margins, and other page parameters.
+\tabskip 0.1em plus 10em minus 0.1em
+\topmargin -0.3750in
+%\topmargin 0.0in
+%\topmargin -0.5in
+%\headheight 0.16667in
+\headheight 12pt
+%\headsep 29.5pt
+\headsep 0.21in
+%\headsep 23.5pt
+\textheight 9in 
+\footheight 0pt
+\footskip 0.4in
+\oddsidemargin 0.5in 
+\textwidth 6.0in
+%\topskip 10pt plus 5pt minus 3pt
+%\topskip 10pt plus 0pt minus 0pt
+\topskip 12pt plus 0pt minus 0pt
+\parindent 2em
+\clubpenalty 10000
+\widowpenalty 10000
+\def\footnoterule{\kern-1pt\hrule width1.5in\kern .6pt} 
+\skip\footins=24pt
+\footnotesep=24pt
+% DDA redefine indentation for enumerated lists.
+%\leftmargini 3.45em 
+\leftmargini 2.95em 
+\intextsep 0.5in plus 0pt minus 0pt
+%\intextsep 4ex plus 0pt minus 0pt
+\renewcommand{\topfraction}{0.7}
+\renewcommand{\bottomfraction}{0.7}
+\renewcommand{\textfraction}{0.3}
+\renewcommand{\floatpagefraction}{0.3}
+\xspaceskip=2.0ex
+%\textfloatsep 4ex plus 0pt minus 0pt
+\textfloatsep 0.5in plus 0pt minus 0pt
+\floatsep 0.5in plus 0pt minus 0pt
+\newcommand{\tableskip}{\vspace{1em}}
+\newcommand{\spc}{\hspace*{1ex}}
+
+
+
+%\newfont{\programfont}{cmtt10 scaled 500}
+
+

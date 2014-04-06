@@ -1,0 +1,38 @@
+\contentsline {prelim}{TITLE \ PAGE}{i}
+\vspace {2ex}
+\contentsline {prelim}{ABSTRACT}{ii}
+\vspace {2ex}
+\contentsline {prelim}{DEDICATION}{iii}
+\vspace {2ex}
+\contentsline {prelim}{ACKNOWLEDGMENTS}{iv}
+\vspace {2ex}
+\contentsline {prelim}{LIST \ OF \ FIGURES}{vii}
+\vspace {2ex}
+CHAPTER
+\contentsline {chapter}{\numberline {1}\uppercase {Introduction}}{1}
+\contentsline {chapter}{\numberline {2}\uppercase {Background}}{3}
+\contentsline {section}{CORBA: Common Object Request Broker Architecture}{3}
+\contentsline {section}{IDL: Syntax and Semantics}{5}
+\contentsline {section}{ORBit}{7}
+\contentsline {section}{The SML/NJ C Interface}{7}
+\contentsline {section}{The ML Type System}{7}
+\contentsline {chapter}{\numberline {3}\uppercase {The C ORB Interface System for the SML/NJ Compiler}}{9}
+\contentsline {section}{The IDL Compiler: corbin-idl}{9}
+\contentsline {subsection}{IDL stubs}{9}
+\contentsline {subsection}{IDL skeletons}{12}
+\contentsline {section}{The Library}{18}
+\contentsline {chapter}{\numberline {4}\uppercase {Case Study: An Instant Messaging Application}}{20}
+\contentsline {section}{SYRUP: Simple Yet Reliable Utility for Product Planning}{20}
+\contentsline {section}{The Design}{21}
+\contentsline {section}{Interface Definition}{23}
+\contentsline {section}{IDL Skeleton Implementation}{27}
+\contentsline {section}{Performance}{29}
+\contentsline {subsection}{The Experiment}{29}
+\contentsline {subsection}{Experiment Results}{30}
+\contentsline {chapter}{\numberline {5}\uppercase {Summary}}{37}
+\contentsline {chapter}{\numberline {6}\uppercase {Appendix}}{39}
+\contentsline {section}{The IDL Grammar}{39}
+\contentsline {section}{S$.$Y$.$R$.$U$.$P$.$ Source Code Listing}{44}
+\contentsline {subsection}{ML implementation of the SyrupManager object}{44}
+\contentsline {subsection}{ML SyrupManager Structure with Utility Functions}{45}
+\contentsline {chapter}{\flushleft \uppercase {References}}{48}

@@ -1,0 +1,11 @@
+rm *.aux
+rm *.log
+rm *.dlog
+rm *.dvi
+rm *.toc
+rm *.bbl
+rm *.blg
+rm *.bak
+rm *.lof
+rm paper.ps
+rm *~

@@ -1,0 +1,36 @@
+
+In a world where the distributed computing environment is a cornerstone 
+for millions of organizations, computer scientists continue to pursue new 
+ways in which distributed applications can be developed rapidly and with ease.
+This can be an ever challenging problem as organizations often have a need to 
+utilize various computing platforms and programming languages.  Moreover, the 
+desire to develop light-weight, modularized components using object oriented 
+design principles has caused a software development paradigm shift.  The 
+creation of more general purpose software components has become preferred over 
+monolithic application development. In order to deal with these challenges, 
+several new distributed computing technologies have been introduced.  One of 
+these such technologies is the Common Object Request Broker Architecture 
+(CORBA).  CORBA was developed by the Object Management Group (OMG).  The OMG 
+is an open membership, not-for-profit consortium that produces and maintains 
+computer industry specifications for interoperable enterprise applications.    
+As of this writing, the OMG's membership roster includes about 800 of the 
+largest companies in the computer industry.  One of the driving forces behind 
+the creation of CORBA was the need for a high level of interoperability in a 
+distributed environment.  In response to this, OMG introduced the Interface 
+Definition Language (IDL).  By defining a standard interface for distributed 
+objects in IDL, it is possible to interoperate with objects that may be 
+implemented in different programming languages and that possibly exist on a 
+remote host running a different operating system.  CORBA accomplishes this 
+through the use of an Object Request Broker (ORB). 
+The ORB is responsible for the actual communication between CORBA objects.  
+In order to implement a CORBA object in a particular programming language, 
+an ORB must exist that supports language bindings for that particular 
+programming language. 
+Many vendors readily offer ORBs for most of the popular programming
+languages.  However, the more obscure programming languages have not been 
+so fortunate when it comes to CORBA support.  Certain problem domains are 
+more easily dealt with by using some of these more obscure languages.
+This paper presents one approach for providing CORBA capabilties to 
+programming languages that do not have ORBs available by implementing 
+an Interface to an ORB with C language bindings, ORBit.
+

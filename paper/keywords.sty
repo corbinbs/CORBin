@@ -1,0 +1,137 @@
+%%
+%% This is file `keywords.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% keywords.dtx  (with options: `style')
+%% 
+%% Copyright: Miguel Alabau, 1995     Miguel.Alabau@labri.u-bordeaux.fr
+%% 
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{keywords}
+
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+
+
+\typeout{Document style `keywords.sty' <1993,1994,1995>}
+
+\expandafter\ifx\csname AlreadyDefined@@Keywords\endcsname\relax%
+\expandafter\def\csname AlreadyDefined@@Keywords\endcsname{}%
+\else\endinput\fi
+\@ifundefined{reset@font}{\global\let\reset@font\relax}{}
+
+\def\NewKeyword#1#2{\@ifnextchar[{\@@newkwrd{#1}{#2}}{\@@newkwrd{#1}{#2}[#2]}}
+\def\@@newkwrd#1#2[#3]{\def#1{\@@KeywordsCurrentStyle{\@@kwrd}{#2}{#3}\@@kwrd}}
+
+\def\@@TypeStyle#1#2#3{\def#1{\mbox{\reset@font#2{}#3\/}}}
+\newif\if@@underline \@@underlinefalse
+\def\DefineKeywordsStyles#1#2{
+    \if@@underline
+        \@namedef{@@#1}##1##2##3{\@@TypeStyle{##1}{#2}{\underline{##2}}}
+        \@namedef{F@@#1}##1##2##3{\@@TypeStyle{##1}{#2}{\underline{##3}}}
+    \else
+        \@namedef{@@#1}##1##2##3{\@@TypeStyle{##1}{#2}{##2}}
+        \@namedef{F@@#1}##1##2##3{\@@TypeStyle{##1}{#2}{##3}}
+    \fi
+    \@@underlinefalse
+    \@namedef{#1s}{\def\@@KeywordsCurrentStyle{\@nameuse{@@#1}}}
+    \@namedef{F#1s}{\def\@@KeywordsCurrentStyle{\@nameuse{F@@#1}}}
+}
+
+\def\DefineUnderlinedKeywordsStyles#1#2{
+    \@@underlinetrue
+    \DefineKeywordsStyles{#1}{#2}
+}
+
+\DefineKeywordsStyles{ProgKeyword}{\bf}
+\DefineKeywordsStyles{ttKeyword}{\tt}
+\DefineKeywordsStyles{AlgoKeyword}{\em}
+\DefineUnderlinedKeywordsStyles{UAlgoKeyword}{\em}
+\DefineKeywordsStyles{NormalKeyword}{\relax}
+\let\UFAlgoKeywords\FUAlgoKeywords
+
+%% DEFAULT KEYWORDS
+\NewKeyword{\ABS}{abs}
+\NewKeyword{\ASM}{asm}
+\NewKeyword{\AUTO}{auto}
+\NewKeyword{\BOOL}{bool}
+\NewKeyword{\BREAK}{break}
+\NewKeyword{\CASE}{case}
+\NewKeyword{\CATCH}{catch}
+\NewKeyword{\CHAR}{char}
+\NewKeyword{\CLASS}{class}
+\NewKeyword{\CONST}{const}
+\NewKeyword{\CONST_CAST}{const\_cast}
+\NewKeyword{\CONTINUE}{continue}
+\NewKeyword{\DEFAULT}{default}
+\NewKeyword{\DELETE}{delete}
+\NewKeyword{\DO}{do}
+\NewKeyword{\DOUBLE}{double}
+\NewKeyword{\DYNAMIC_CAST}{dynamic\_cast}
+\NewKeyword{\ELSE}{else}
+\NewKeyword{\ENUM}{enum}
+\NewKeyword{\EXPLICIT}{explicit}
+\NewKeyword{\EXTERN}{extern}
+\NewKeyword{\FALSE}{false}
+\NewKeyword{\FLOAT}{float}
+\NewKeyword{\FOR}{for}
+\NewKeyword{\FRIEND}{friend}
+\NewKeyword{\GOTO}{goto}
+\NewKeyword{\IF}{if}
+\NewKeyword{\INLINE}{inline}
+\NewKeyword{\INT}{int}
+\NewKeyword{\LONG}{long}
+\NewKeyword{\MUTABLE}{mutable}
+\NewKeyword{\NAMESPACE}{namespace}
+\NewKeyword{\NEW}{new}
+\NewKeyword{\OPERATOR}{operator}
+\NewKeyword{\PRIVATE}{private}
+\NewKeyword{\PROTECTED}{protected}
+\NewKeyword{\PUBLIC}{public}
+\NewKeyword{\REGISTER}{register}
+\NewKeyword{\REINTERPRET_CAST}{reinterpret\_cast}
+\NewKeyword{\RETURN}{return}
+\NewKeyword{\SHORT}{short}
+\NewKeyword{\SIGNED}{signed}
+\NewKeyword{\SIZEOF}{sizeof}
+\NewKeyword{\STATIC}{static}
+\NewKeyword{\STATIC_CAST}{static\_cast}
+\NewKeyword{\STRUCT}{struct}
+\NewKeyword{\SWITCH}{switch}
+\NewKeyword{\TEMPLATE}{template}
+\NewKeyword{\THIS}{this}
+\NewKeyword{\THROW}{throw}
+\NewKeyword{\TRUE}{true}
+\NewKeyword{\TRY}{try}
+\NewKeyword{\TYPEDEF}{typedef}
+\NewKeyword{\TYPEID}{typeid}
+\NewKeyword{\TYPENAME}{typename}
+\NewKeyword{\UNION}{union}
+\NewKeyword{\UNSIGNED}{unsigned}
+\NewKeyword{\USING}{using}
+\NewKeyword{\VIRTUAL}{virtual}
+\NewKeyword{\VOID}{void}
+\NewKeyword{\VOLATILE}{volatile}
+\NewKeyword{\WCHAR_T}{wchar\_t}
+\NewKeyword{\WHILE}{while}
+
+\ProgKeywords
+\endinput
+%%
+%% End of file `keywords.sty'.

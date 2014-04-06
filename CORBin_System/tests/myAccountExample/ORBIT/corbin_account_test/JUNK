@@ -1,0 +1,8 @@
+comet3[386] f90 ppm_maker.f90 
+Undefined                       first referenced
+ symbol                             in file
+draw_line_                          ppm_maker.o
+ld: fatal: Symbol referencing errors. No output written to a.out
+comet3[387] 
+
+

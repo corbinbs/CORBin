@@ -1,0 +1,35 @@
+account_i.o account_i.d: account.hh \
+ ../../../include/omniORB3/CORBA.h \
+ ../../../include/omniORB3/omniInternal.h \
+ ../../../include/omnithread.h \
+ ../../../include/omnithread/posix.h \
+ ../../../include/omniORB3/CORBA_sysdep.h \
+ ../../../include/omniORB3/CORBA_basetypes.h \
+ ../../../include/omniORB3/seqtemplates.h \
+ ../../../include/omniORB3/GIOP.h \
+ ../../../include/omniORB3/IOP.h \
+ ../../../include/omniORB3/IIOP.h \
+ ../../../include/omniORB3/omniObjKey.h \
+ ../../../include/omniORB3/tracedthread.h \
+ ../../../include/omniORB3/rope.h \
+ ../../../include/omniORB3/bufferedStream.h \
+ ../../../include/omniORB3/giopDriver.h \
+ ../../../include/omniORB3/omniObjRef.h \
+ ../../../include/omniORB3/proxyFactory.h \
+ ../../../include/omniORB3/omniServant.h \
+ ../../../include/omniORB3/templatedecls.h \
+ ../../../include/omniORB3/stringtypes.h \
+ ../../../include/omniORB3/userexception.h \
+ ../../../include/omniORB3/corbaidl_defs.hh \
+ ../../../include/omniORB3/CORBA_vartypes.h \
+ ../../../include/omniORB3/omniORB.h \
+ ../../../include/omniORB3/templatedefns.h \
+ ../../../include/omniORB3/corba_operators.h \
+ ../../../include/omniORB3/poa.h \
+ ../../../include/omniORB3/poa_defs.h \
+ ../../../include/omniORB3/poa_operators.h \
+ ../../../include/omniORB3/poa_poa.h \
+ ../../../include/omniORB3/corbaidl_operators.hh \
+ ../../../include/omniORB3/corbaidl_poa.hh \
+ ../../../include/omniORB3/boa.h \
+ ../../../include/omniORB3/Naming.hh

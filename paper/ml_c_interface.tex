@@ -1,0 +1,14 @@
+
+
+Since it is common to distribute reusable software modules in the form of 
+C language function libraries, a C foreign function interface was 
+created for the SML/NJ compiler. \cite{lorenz}  This interface comes in two 
+parts: a library of C functions in the SML/NJ runtime system and an SML/NJ
+library that must be explicitly loaded into the top-level environment of 
+SML/NJ prior to foreign function application. \cite{lorenz} This interface 
+also allows function pointers, representing ML functions, to be passed to 
+C functions as parameters so that ML functions may be called from C.   
+The SML/NJ library portion of the interface provides ML data types representing
+the types available in the C programming language.  These data types allow the 
+ML programmer to easily pass data from ML to C and vice-versa.
+

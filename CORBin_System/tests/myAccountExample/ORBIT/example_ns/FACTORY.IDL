@@ -1,0 +1,8 @@
+#pragma inhibit push
+#include "account.idl"
+#pragma inhibit pop
+interface Account;
+
+interface factory {
+  Account newAccount(in unsigned long balance);
+};

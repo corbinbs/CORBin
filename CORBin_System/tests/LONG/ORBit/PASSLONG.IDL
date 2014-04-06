@@ -1,0 +1,6 @@
+
+	interface passlong {
+
+		long foo(in long x);
+
+	};

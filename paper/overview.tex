@@ -1,0 +1,145 @@
+In the next subsection, we define terms and introduce concepts
+important for understanding the problem that we consider.
+We then describe some of the difficulty involved in the
+construction of
+a parser front-end for C++, including the importance of
+a solution to the name lookup problem.
+In the second subsection, we overview our approach for
+constructing a symbol table for C++ and the technique that we
+use to perform name lookup.
+
+\section{Terminology and statement of the problem}
+
+Software developers need tools to facilitate
+the design, analysis and testing of the system under development.
+Many useful tools require a parser front-end to compute and
+store information about the program, and to perform the analysis needed.
+A {\em parser front-end} performs lexical and syntactic
+analysis, constructs a symbol table, performs semantic
+analysis and possibly generates an intermediate representation
+of the program.
+A {\em symbol table} is a data structure that stores information
+about the types and names used in the program.
+
+Many programming language constructs have an inherently recursive
+structure that can be defined by context-free grammars, or CFGs\cite{aho86}.
+Most of the constructs of languages such as Pascal and Ada
+can be specified by CFGs, and parser front-ends for these languages
+can base their recognition on syntactic considerations alone.
+An exception to this easy-parse rule can be found in the language C,
+where a declaration may not be easily distinguished from
+an expression.  Consider the following code segment:
+
+\begin{center}
+\tt f (x);
+\end{center}
+
+\noindent
+Intuitively, the above code segment appears to be an expression
+involving an invocation of function {\tt f} with parameter {\tt x}.
+However, if the context includes the following declaration: 
+
+\begin{center}
+\tt typedef int f;
+\end{center}
+
+\noindent
+then the code segment is actually a declaration of {\tt x}
+as an integer variable with redundant parentheses.
+This {\em declaration/expression ambiguity}
+not withstanding, parser front-ends for the
+C language have not been difficult to construct.
+However, a parser front-end for
+the C++ language has proven elusive and 
+the difficulties involved have been described in 
+references \cite{bodin94,knapen99,lilley97,power00,reiss95,Roskind89}.
+Currently, there is no parser front-end in the public domain
+that can parse the language described in the ISO C++
+standard\cite{C++standard98}. 
+Many constructs in the C++ language cannot be recognized by
+syntactic consideration alone;
+these constructs
+not only include the {\em typedef} declaration/expression
+ambiguity of C, but C++ also includes context-dependent keywords
+for {\em namespace}, {\em class}, {\em enumeration} and {\em template}
+declarations\cite[Appendix A]{C++standard98}. 
+
+To illustrate the declaration/expression ambiguity introduced 
+by templates into C++,
+consider that for a code segment such as {\sf a} $<$ {\sf b},
+the name {\sf a} must be looked up to determine
+whether the $<$ is the beginning of a template
+argument list or a less-than 
+operator \cite[\S 3.4.5/1]{C++standard98}.
+Thus, the disambiguation of many C++ constructs
+requires a solution to the name lookup problem.
+The {\em name lookup} problem is defined as follows:
+given the use of a name in the program, find the
+corresponding declaration of that name.
+
+The GNU Free Software Foundation
+offers {\sf gcc},
+a public domain compiler for the C++ language.
+However, it is difficult to de-couple the parser front-end 
+of {\sf gcc} from the back-end of the compiler.
+Even if de-coupling were achieved, low-level access to
+the internals of {\sf gcc} is not easily accomplished.
+Furthermore, {\sf gcc} does not parse the language described
+in the C++ standard.
+
+
+\begin{figure*}[t]
+ \centerline{\protect
+\mbox{\psfig{figure=Figs/package.eps,height=.35\textheight}}}
+  \caption{{\em System summary}.
+This figure summarizes the design of our system
+to construct a parser front-end for ISO C++.
+The {\sf ProgramProcessor} subsystem is responsible
+for initiating and directing symbol table construction
+and name lookup by marshaling information about the name in a
+{\sf NameOccurrence} object and directing the search for
+a corresponding {\sf NameDeclaration} in
+the {\sf Symbol Table} subsystem.
+}
+   \label{fig:sysoverview}
+\figline
+\end{figure*}
+
+
+\section{Overview of our approach}
+
+Figure \ref{fig:sysoverview} summarizes the design of
+our system to construct a parser front-end for ISO C++.
+The figure presents two subsystems, illustrated as
+tabbed folders and designated by the $\ll${\sf subsystem}$\gg$ stereotype.
+The {\sf ProgramProcessor} subsystem is shown on
+the left side and the {\sf Symbol Table} subsystem is shown
+on the right side of Figure \ref{fig:sysoverview}. 
+The {\sf ProgramProcessor} and {\sf Symbol Table}
+subsystems are elaborated in Sections \ref{processor}
+and \ref{behavior} respectively.
+
+The {\sf ProgramProcessor} subsystem includes a {\sf Scanner}
+and {\sf Parser} and is responsible for initiating and
+directing symbol table construction and name lookup.
+This responsibility includes two phases: (1) assembling
+the necessary information for creation of a {\sf NameOccurrence}
+object, and (2) directing the search for a corresponding
+{\sf NameDeclaration} object in the {\sf Symbol Table} subsystem.
+
+The {\sf NameOccurrence} object encapsulates local information
+relevant to the lookup, including the {\sf String}
+representation of the name, a boolean to indicate
+name qualification (by class or namespace), and
+an enumeration, {\sf OccurSpecifier}, that
+captures lexical information about the context
+in which the name occurred. 
+The {\sf NameDeclaration} object includes the
+{\sf String} representation of the name,
+an enumeration indicating the type of name,
+and a pointer to the enclosing scope.
+The {\sf NameOccurrence}
+object is discussed further in the next section.
+
+
+

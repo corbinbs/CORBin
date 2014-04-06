@@ -1,0 +1,95 @@
+\documentstyle[12pt,thesis]{ireport}
+\date{\today}
+\author{Brian S. Corbin}
+\title{ML, CORBA, and The C ORB Interface}
+\department{Computer Science}
+\dissertation{Thesis}
+\degree{Master of Science}
+\subdate{April ??, 2000}
+\semester{May, 2000}
+
+
+\input{psfig.sty}
+% use Section{}, SubSection{} and SubSubSection{} instead of
+%    standard section{}, subsection{} and subsubsection{} to
+%     obtain headings in the form "1.3: My heading"
+
+%\def\figline{\rule{\textwidth}{0.3mm}}
+%\def\mysection#1#2{\Section{#1}\label{#2}\input{#2}}
+
+\def\CPP{C\raise.22ex\hbox{{\footnotesize +}}\raise.22ex\hbox{\footnotesize +}}
+\def\BCPP{C\raise.22ex\hbox{{\footnotesize \bf +}}\raise.22ex\hbox{\footnotesize \bf +}}
+
+\def\figline{\rule{\textwidth}{0.3mm}}
+
+%\usepackage{keywords}
+%\usepackage{epsf}
+
+\begin{document}
+
+\makesignature
+\preliminaries
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\begin{acknowledgments}
+\input{ack}
+\end{acknowledgments}
+
+\tableofcontents
+\listoffigures
+\body
+
+\chapter{Introduction}
+\label{intro}
+\input{intro}
+
+\chapter{Background}
+\label{back}
+\input{back}
+
+%\chapter{Related Work}
+%\label{related}
+%\input{related}
+
+%\chapter{Parsing C++}
+%\label{issues}
+%\input{issues}
+
+%\chapter{Overview of ANTLR Facilities}
+%\label{antlr}
+%\input{antlr}
+
+%\chapter{Implementation For a Subset of ISO C++}
+%\label{implement}
+%\input{implement}
+
+%\chapter{Case Study}
+%\label{study}
+%\input{study}
+
+\chapter{Concluding Remarks}
+\label{conclude}
+\input{conclude}
+
+%\chapter{Appendix A}
+%\label{appendix}
+%\input{appendix}
+
+%\chapter{Appendix B}
+%\label{antlrref}
+%\input{antlrref}
+
+%
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+% produce the bibliography for the citations in your paper.
+\newpage
+\bibliographystyle{plain}
+\bibliography{paper}  % paper.bib is the name of the Bibliography
+
+% That's all folks!
+\end{document}

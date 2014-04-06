@@ -1,0 +1,61 @@
+#FIG 3.2
+Landscape
+Center
+Inches
+Letter  
+100.00
+Single
+-2
+1200 2
+6 1125 3825 7800 4275
+4 0 0 50 0 0 12 0.0000 4 180 2265 1125 3975 PortableServer_POAManager\001
+4 0 0 50 0 0 12 0.0000 4 180 6645 1125 4200 CORBin_PortableServer_POA__get_the_POAManager(PortableServer_POA root_poa)\001
+-6
+6 2250 375 6375 1200
+4 0 0 50 0 0 20 0.0000 4 330 2415 3075 1125 CORBin Library\001
+4 0 0 50 0 0 20 0.0000 4 255 4095 2250 675 C Functions included in the\001
+-6
+6 1125 4725 6225 5400
+4 0 0 50 0 0 12 0.0000 4 180 4965 1125 4875 CORBA_Object   CORBin_CosNaming_NamingContext_resolve(\001
+4 0 0 50 0 0 12 0.0000 4 180 5100 1125 5100                                                CosNaming_NamingContext name_srv,\001
+4 0 0 50 0 0 12 0.0000 4 180 4560 1125 5325                                                CosNaming_Name * obj_name )\001
+-6
+6 1200 5625 6225 6525
+4 0 0 50 0 0 12 0.0000 4 180 3720 1200 5775 void CORBin_CosNaming_NamingContext_bind(\001
+4 0 0 50 0 0 12 0.0000 4 180 5010 1200 6000                                              CosNaming_NamingContext name_srv,\001
+4 0 0 50 0 0 12 0.0000 4 180 4440 1200 6225                                              CosNaming_Name * obj_name, \001
+4 0 0 50 0 0 12 0.0000 4 180 4155 1200 6450                                              CORBA_Object   the_obj   )\001
+-6
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 1650 7875 1650
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 1950 7875 1950
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 2250 7875 2250
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 2550 7875 2550
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 2850 7875 2850
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 3150 7875 3150
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 3450 7875 3450
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 3750 7875 3750
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 4350 7875 4350
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 4650 7875 4650
+2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 2
+	 900 5475 7875 5475
+2 2 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 5
+	 900 1350 7875 1350 7875 6675 900 6675 900 1350
+4 0 0 50 0 0 12 0.0000 4 180 2295 1125 1575 void CORBin_exception_init()\001
+4 0 0 50 0 0 12 0.0000 4 180 2520 1125 1875 void CORBin_orb_init(char * str)\001
+4 0 0 50 0 0 12 0.0000 4 180 4185 1125 2175 CORBA_Object   CORBin_string_to_object(char * str)\001
+4 0 0 50 0 0 12 0.0000 4 180 3885 1125 2475 void CORBin_Object_release(CORBA_Object obj)\001
+4 0 0 50 0 0 12 0.0000 4 180 5070 1125 2775 CORBA_Object   CORBin_Object_duplicate(CORBA_Object  obj)\001
+4 0 0 50 0 0 12 0.0000 4 180 1935 1125 3075 void CORBin_ORB_run()\001
+4 0 0 50 0 0 12 0.0000 4 180 5010 1125 3375 void * CORBin_ORB_resolve_initial_references(char * ref_name)\001
+4 0 0 50 0 0 12 0.0000 4 180 6600 1125 3675 void CORBin_PortableServer_POAManager_activate(PortableServer_POAManager p)\001
+4 0 0 50 0 0 12 0.0000 4 180 4095 1125 4575 CosNaming_Name * CORBin_create_name(char * id)\001

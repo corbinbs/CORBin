@@ -1,0 +1,97 @@
+\documentstyle[12pt,thesis]{ireport}
+\date{\today}
+\author{Brian S. Corbin}
+\advisor{Dr$.$ D$.$E$.$ Stevenson}
+\title{CORBin:  A System Providing CORBA Support to the Standard ML of New Jersey Compiler}
+\department{Computer Science}
+\dissertation{Thesis}
+\degree{Master of Science}
+\subdate{May 4, 2001}
+\semester{May 2001}
+
+
+\input{psfig.sty}
+% use Section{}, SubSection{} and SubSubSection{} instead of
+%    standard section{}, subsection{} and subsubsection{} to
+%     obtain headings in the form "1.3: My heading"
+
+%\def\figline{\rule{\textwidth}{0.3mm}}
+%\def\mysection#1#2{\Section{#1}\label{#2}\input{#2}}
+
+\def\CPP{C\raise.22ex\hbox{{\footnotesize +}}\raise.22ex\hbox{\footnotesize +}}
+\def\BCPP{C\raise.22ex\hbox{{\footnotesize \bf +}}\raise.22ex\hbox{\footnotesize \bf +}}
+
+\def\figline{\rule{\textwidth}{0.3mm}}
+
+%\usepackage{keywords}
+%\usepackage{epsfig}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%Signature Page%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makesignature
+\preliminaries
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%The ABSTRACT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%The DEDICATION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dedication}
+\input{dedication}
+\end{dedication}
+%%%%%%%%%%%%%%%%%%%%%%%%Acknowledgements%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{acknowledgments}
+\input{ack}
+\end{acknowledgments}
+
+%%%%%%%%%%%%%%%%%%%%%%%Table of Contents%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tableofcontents
+%%%%%%%%%%%%%%%%%%%%%%%List of Figures%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\listoffigures
+\body
+
+%%%%%%%%%%%%%%%%%%%%%%%%%Introduction%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\uppercase{Introduction}}
+\label{intro}
+\input{intro}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%Background%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\uppercase{Background}}
+\label{back}
+\input{back}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%CORBin Discussion%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter[\uppercase{The C ORB Interface System for the SML/NJ Compiler}]%
+        {\uppercase{CORBin: The C ORB Interface System for the SML/NJ Compiler}}
+\label{implement}
+\input{implement}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%SYRUP Discussion%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\uppercase{Case Study: An Instant Messaging Application}}
+\label{study}
+\input{study}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Summary%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\uppercase{Summary}}
+\label{summary}
+\input{summary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Appendix%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{\uppercase{Appendix}}
+\label{appendix}
+\input{appendix}
+
+%
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+% produce the bibliography for the citations in your paper.
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{paper}  % paper.bib is the name of the Bibliography
+
+% And that's the bottom line ... cause it's "Miller Time!"
+\end{document}

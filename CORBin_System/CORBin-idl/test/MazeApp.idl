@@ -1,0 +1,28 @@
+
+module MazeApp {
+
+   interface PlayerCallBack {
+	void message (in string msg);
+	string getPlayersName();
+	long getRoomNo();
+	void turnRight();
+	void turnLeft();
+	void turnAround();
+	long getIntDirection();
+	void changeRooms(in long room);
+	string getStatus();
+   };
+
+   interface MazeServer {
+	void joinGame(in PlayerCallBack play_obj);
+	void leaveGame(in PlayerCallBack play_obj);
+	void turnRight(in PlayerCallBack play_obj);
+	void turnLeft(in PlayerCallBack play_obj);
+	void turnAround(in PlayerCallBack play_obj);
+	void move(in PlayerCallBack play_obj);
+	void notifyPlayerInfo(in PlayerCallBack play_obj);
+	long viewLeft(in PlayerCallBack play_obj);
+	long viewCenter(in PlayerCallBack play_obj);
+	long viewRight(in PlayerCallBack play_obj);
+   };
+};

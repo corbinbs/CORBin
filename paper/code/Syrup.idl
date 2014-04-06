@@ -1,0 +1,22 @@
+
+  module Syrup {
+
+	interface SyrupClient  {
+		oneway void Message(in string userid, in string msg);	
+		oneway void AddUserToList(in string id); 
+		oneway void RemoveUserFromList(in string id); 
+	};
+
+	interface SyrupManager {
+	
+		void Login  (in string userid, in SyrupClient client); 
+		void Logout (in string userid);		
+		oneway void PostMessage (in string userid, in string msg);
+		oneway void SendMessage (in string from, 
+					 in string to,
+				         in string msg);
+
+	};
+
+  };
+

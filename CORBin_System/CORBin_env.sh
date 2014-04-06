@@ -1,0 +1,30 @@
+CORBIN_ARCH=x86
+CORBIN_OS=linux
+
+#CORBIN_ARCH=sparc
+#CORBIN_OS=solaris
+
+CORBIN_SYSTEM_PREFIX=/tmp/CORBin
+
+CORBA_SML_NJ_BIN=$CORBIN_SYSTEM_PREFIX/SML_NJ_install/bin
+SML_SRC_DIR=$CORBIN_SYSTEM_PREFIX/SML_NJ_install
+SMLNJ_C_DIR=$CORBIN_SYSTEM_PREFIX/SML_NJ_install/smlnj-c
+
+CORBIN_IDL_OUTPUT_DIR=$CORBIN_SYSTEM_PREFIX/corbin_idl_output
+C_ORB_OUTPUT_DIR=$CORBIN_SYSTEM_PREFIX/c_orb_output
+CORBIN_BIN=$CORBIN_SYSTEM_PREFIX/CORBin-idl
+
+PATH=$PATH:$CORBIN_BIN:$CORBA_SML_NJ_BIN
+
+############################################################################
+
+export CORBIN_ARCH
+export CORBIN_OS
+export CORBA_SML_NJ_BIN
+export CORBIN_IDL_OUTPUT_DIR
+export C_ORB_OUTPUT_DIR
+export SML_SRC_DIR
+export SMLNJ_C_DIR
+export CORBIN_BIN
+export PATH
+

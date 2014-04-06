@@ -1,0 +1,30 @@
+
+As the networked computing environment continues to become more diverse, 
+the need for interoperability among software and hardware components increases.
+In recent years, several technologies have emerged in an attempt to solve this 
+interoperability problem.  The Common Object Request Broker Architecture (CORBA)
+from the Object Management Group (OMG) is one such technology.  CORBA developers
+create a standard interface to a software component by specifying its interface
+in OMG's Interface Definition Language (IDL).   Based on this IDL specification,
+components that may be implemented in different programming languages can 
+interoperate with one another even if those components exist on different 
+computing platforms. This is accomplished through the use of an Object Request 
+Broker (ORB).  In order to implement a CORBA component in a particular programming
+language, there must exist an ORB that supports language bindings for that 
+programming language.   While most of the popular programming languages are well 
+supported, some languages , like ML, go without CORBA support.   Since languages 
+like ML often provide powerful capabilities in certain problem domains,  the 
+ability to implement CORBA components in ML is highly desirable.  This paper 
+presents one approach for providing CORBA capabilities to ML by interfacing with 
+a freely available ORB with C language bindings called ORBit.  Through the use 
+of a foreign function interface, ML can call C functions and vice-versa.  Using 
+this ability, the C ORB Interface (CORBin) System provides an IDL compiler, corbin-idl,  
+which processes an IDL specification and generates C functions that utilize 
+ORBit's functionality.  These functions are added to a library that is compiled 
+into the SML/NJ runtime system.  This provides the ML programmer with the ability to  
+communicate with and implement CORBA components in ML. Since instant messaging 
+via the Internet has become popular, a case study is presented in which an instant 
+messaging application utilizes a CORBA component implemented in ML. Also, an
+experiment is conducted to determine if CORBA objects implemented in ML 
+can provide satisfactory performance.   
+

@@ -1,0 +1,98 @@
+
+{\CPP} is a notoriously difficult language to 
+parse\cite{bodin94,knapen99,lilley97,reiss95,Roskind89}.
+Parser generators can ease this difficulty,
+but each parser generator has its own benefits and drawbacks.
+In this section we will discuss the issues related to parsing {\CPP} in a general sense.
+The implementation, chapter \ref{implement}, presents a discussion 
+of solutions to these issues using ANTLR.
+
+\section{Declaration vs$.$ Expression Ambiguity}
+The {\em declaration vs$.$ expression} ambiguity makes it difficult
+to distinguish a declaration from an expression 
+without an arbitrary amount of look-ahead.  Consider the
+following example:
+
+\singlespace
+\begin{verbatim}
+                    int(x)(float);
+                    int(x) + 4;
+\end{verbatim}
+\doublespace
+
+The first line is a declaration of function ``x'' while the second is an 
+expression which includes a function-style (the preferred method) cast to int then adding 4.
+
+\section{Typedef vs$.$ Identifier Ambiguity}
+The {\em typedef vs$.$ identifier} ambiguity is created by the fact that an identifier in {\CPP} can be a type or a non-type.  The {\CPP} grammar is ambiguous until one can distinguish these.  One method of solving this ambiguity is to perform a symbol table lookup.
+
+\section{Template Ambiguities}
+``Templates make a {\CPP} parser at least ten times harder than it would be otherwise''\cite{lilley97}.  First a parser must save template declarations so when they are specialized the holes may be filled in.  The more difficult problem is template specialization which requires type, scope, and expression analysis just to complete the syntax check.  Here is an example of template specialization:
+
+\singlespace
+\begin{verbatim}
+                    // Primary template
+                    template <class T> class X {
+                      typedef int a;
+                    };
+
+                    // Specialization for double
+                    template <> class X<double> {
+                      void a();
+                    };
+\end{verbatim}
+\doublespace
+
+Class X has been specialized for double which means $X<double>$ is now different than $X<int>$.  We now have to be careful parsing identifiers qualified by template-ids.  Example:
+
+\singlespace
+\begin{verbatim}
+          X<int>::a    // this is a type (uses primary template)
+          X<double>::a  // this is NOT a type (uses specialization)
+\end{verbatim}
+\doublespace
+
+The above examples are not overly difficult, but partial specialization makes our work more difficult.  Here is an example of partial specialization with pointers of type T:
+
+\singlespace
+\begin{verbatim}
+ // Partial specialization for pointers
+ template <class T> class X<T*> {
+   void a();
+ };
+ 
+ X<double>::a  //this is a type (uses primary template)
+ X<double*>::a //this is NOT a type (uses partial specialization)
+\end{verbatim}
+\doublespace
+
+The previous example requires full type analysis.  We must compare actual template arguments to the types of template specialization parameters.  An even more difficult example can be found by looking a specialization based on value.  Example:
+
+\singlespace
+\begin{verbatim}
+    template <int i> class X { // primary template
+      typedef int a;
+    };
+
+    template <int i> class X<4> {  // specialization
+      void a();
+    };
+
+    class aClass {...};
+    int func(float);
+    aClass func(int);
+          
+    X<2>::a               // this is a type (uses primary template)
+    X<sizeof(int)>::a     // this is NOT a type for 4-byte ints
+    X<sizeof(aClass)>::a  // depends on size of class C
+    X<sizeof(f(3.2))>::a  // depends on return type of overloaded f()
+\end{verbatim}
+\doublespace
+
+Now the parser must know the size of any type which becomes more difficult when we consider class size, alignment and implementation issues such as virtual-function tables, inheritance, multiple inheritance, and virtual inheritance.  The parser must also compute the value returned from sizeof which requires back-end knowledge (a system may not use 4-byte ints).  Worse yet, the parser must understand function overloading and explicit and implicit type conversion for this example to parse.
+
+\section{General Ambiguities}
+In general there are several other back-end issues a parser must handle.  
+These problems cause the parser writer to blur the distinction between the parser front-end
+and the back-end application.  These problems also make the idea of creating implementation 
+independent trees from the parsing phase near impossible.  A possible solution is to delay parsing of constructs that require back-end knowledge.  This approach introduces new problems.  How do we recognize these constructs?  Using this new approach a developer of a back-end must also potentially throw parse errors if found.  While this approach is not perfect, because we still are blurring the lines between parser and back-end, it provides a way to generate implementation independent trees from the parse phase.  This is a fundamental requirement in the construction of a front-end.  It would be difficult to build an implementation dependent front-end for all platforms currently available and whenever a new platform emerges this front-end will become obsolete.

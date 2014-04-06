@@ -1,0 +1,25 @@
+Group is
+
+  ml-yacc-lib.cm
+  smlnj-lib.cm
+
+  errormsg.sml
+
+  table.sml
+  table.sig
+  symbol.sml 
+  AST.sml
+  PrintAST.sml
+  GenCWrappers.sml
+  GenCSkels.sml
+  GenCSkelImpl.sml
+  GenCCALLSMacros.sml
+  GenSML_CInterface.sml
+
+  idl.grm
+  idl.lex
+
+
+  CORBin-idl.sml
+  CORBin-lib.sml
+
