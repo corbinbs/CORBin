@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2001-{{{year}}} {{{fullname}}}
+Copyright (c) 2001-2014 Brian S. Corbin
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
